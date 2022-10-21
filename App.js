@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useSyncExternalStore } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Platform, Button, Alert, TextInput, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, Platform, Button, Alert, TextInput, ScrollView, FlatList } from 'react-native';
 
 export default function App() {
   const [enteredPlantName, setEnteredPlantName] = useState('');
@@ -11,34 +11,46 @@ export default function App() {
   };
 
   const addPlantHandler = () => {
-    setPlants(currentPlants => [...currentPlants, enteredPlantName]);
-    // Alert.alert(
-    //   "Amazing!", "You added a plant named " + enteredPlantName + ".",
-    //   [{text: "Cool"}] );
+    setPlants(currentPlants => [
+      ...currentPlants, 
+      { text: enteredPlantName, key: Math.random().toString() },
+    ]);
   };
 
   return (
-    <View style={styles.display}>
+    <View style={styles.appContainer}>
+
       <View style={styles.header}>
         <Text>Hey Leo, here is an overview of your planties :)</Text>
       </View>
-      {/* <StatusBar style="auto" /> */}
+
       <View style={styles.plantContainer}>
-        <ScrollView>
-          {plants.map((plant) => (
-            <View key={plant} style={styles.plantItem} >
-              <Text>{plant}</Text>
-            </View>))}
-        </ScrollView>
+        <FlatList 
+          data={plants} 
+          renderItem={itemData => {
+            return (
+              <View style={styles.plantItem} >
+                <Text>{itemData.item.text}</Text>
+                <View style={styles.plantBTNs}>
+                  <Button title='edit' color='#B8405E' />
+                  <Button title='delete' color='#B8405E' />
+                </View>
+              </View>
+            );
+          }} 
+        />
       </View>
-      <View style={styles.addPlantBox}>
+
+      <View style={styles.userInput}>
         <TextInput 
           onChangeText={textInputHandler} 
-          placeholder="plant name"
+          placeholder='plant name'
+          placeholderTextColor='#cccccc'
+          style={styles.textInput}
         />
         <Button 
-          color="#30694B"
-          title="add plant" 
+          color='#B8405E'
+          title='add plant' 
           onPress={addPlantHandler} 
         />
       </View>
@@ -47,33 +59,45 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
-  display: {
-    backgroundColor: '#fff',
-    paddingTop: Platform.OS === "android" ? 40 : 0,
-    paddingRight: 20,
-    paddingBottom: 20,
-    paddingLeft: 20,
-    flex: 1
+  appContainer: {
+    flex: 1,
+    backgroundColor: '#EEE6CE',
+    paddingTop: Platform.OS === 'android' ? 40 : 0,
   },
   header: {
-    flex: 1
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   plantContainer: {
-    backgroundColor: "#25523B",
-    paddingTop: 20,
-    paddingRight: 20,
-    paddingBottom: 20,
-    paddingLeft: 20,
-    flex: 8,
+    flex: 6,
+  },
+  plantBTNs: {
+    flexDirection: 'row',
   },
   plantItem: {
-    backgroundColor: '#5AAB61',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     padding: 10,
-    margin: 8
+    margin: 8,
+    backgroundColor: '#2EB086',
   },
-  addPlantBox: {
-    position: "absolute",
-    bottom: 0,
-    width: "100%"
+  userInput: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    zIndex: 1,
+    padding: 20,
+    backgroundColor: '#313552'
+  },
+  textInput: {
+    width: '70%',
+    height: 35,
+    color: '#fff'
+  },
+  textColorLight: {
+    color: '#fff'
   }
 });
