@@ -14,6 +14,16 @@ export default function App() {
     ]);
   };
 
+  const waterPlantHandler = (id) => {
+    const updatedPlants = plants.map(plant => {
+      if (plant.id === id) {
+        return { ...plant, text: 'Hello world' };
+      }
+      return plant;
+    });
+    setPlants(updatedPlants);
+  };
+
   const deletePlantHandler = (id) => {
     setPlants(currentPlants => {
       return currentPlants.filter((plant) => plant.id !== id);
@@ -34,7 +44,10 @@ export default function App() {
             return <PlantItem 
                       text={itemData.item.text}
                       id={itemData.item.id}
-                      onDeletePlant={deletePlantHandler} 
+                      waterRhythm={2}
+                      fertilizerRhythm={4}
+                      onWaterPlant={() => waterPlantHandler(itemData.item.id)}
+                      onDeletePlant={deletePlantHandler}
                     />;
           }}
           keyExtractor={(item, index) => {
