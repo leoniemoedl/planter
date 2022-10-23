@@ -1,17 +1,19 @@
 import { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Platform, FlatList } from 'react-native';
+import { StyleSheet, Text, View, Platform, FlatList, Button } from 'react-native';
 import PlantItem from './components/PlantItem';
 import PlantInput from './components/PlantInput';
 
 export default function App() {
   const [plants, setPlants] = useState([]);
+  const [addPlantModalIsVisible, setAddPlantModalIsVisible] = useState(false);
   
   const addPlantHandler = (enteredPlantName) => {
     setPlants(currentPlants => [
       ...currentPlants, 
       { text: enteredPlantName, id: Math.random().toString() },
     ]);
+    closeAddPlantModal();
   };
 
   const waterPlantHandler = (id) => {
@@ -28,6 +30,14 @@ export default function App() {
     setPlants(currentPlants => {
       return currentPlants.filter((plant) => plant.id !== id);
     });
+  };
+
+  const openAddPlantModal = () => {
+    setAddPlantModalIsVisible(true);
+  };
+
+  const closeAddPlantModal = () => {
+    setAddPlantModalIsVisible(false);
   };
 
   return (
@@ -56,7 +66,12 @@ export default function App() {
         />
       </View>
 
-      <PlantInput onAddPlant={addPlantHandler} />
+      <PlantInput 
+        visible={addPlantModalIsVisible} 
+        onAddPlant={addPlantHandler} 
+        onCancel={closeAddPlantModal}
+      />
+      <Button title='add' color='#B8405E' onPress={openAddPlantModal} />
     </View>
   );
 }
