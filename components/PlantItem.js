@@ -1,4 +1,5 @@
-import { StyleSheet, View, Text, Button, Pressable } from 'react-native';
+import { StyleSheet, View, Text, Pressable } from 'react-native';
+import CustomButton from './CustomButton';
 
 export default function PlantItem(props) {
     const test = () => {
@@ -12,11 +13,11 @@ export default function PlantItem(props) {
                 <View style={styles.userInteraction} >
                     <View style={styles.col} >
                         <Text>Water rhythm: {props.waterRhythm} days</Text> 
-                        <Button title='give water' color='#B8405E' onPress={props.onWaterPlant} />
+                        <CustomButton title='give water' onPress={props.onWaterPlant} />
                     </View>
                     <View style={styles.col} >
                         <Text>Fertilizer rhythm: {props.fertilizerRhythm} weeks</Text>
-                        <Button title='fertilize' color='#B8405E'/>
+                        <CustomButton title='fertilize' />
                     </View>
                 </View>
                 

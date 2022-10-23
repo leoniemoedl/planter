@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { StyleSheet, View, TextInput, Button, Modal, Text } from 'react-native';
+import CustomButton from './CustomButton';
 
 export default function PlantInput(props) {
     const [enteredPlantName, setEnteredPlantName] = useState('');
@@ -10,7 +11,6 @@ export default function PlantInput(props) {
     
     const addPlantHandler = () => {
         props.onAddPlant(enteredPlantName);
-        // setEnteredPlantName('');
     }
 
     return (
@@ -36,15 +36,14 @@ export default function PlantInput(props) {
                         style={styles.textInput}
                     />
                     <View style={styles.buttonContainer} >
-                        <Button 
-                            color='#B8405E'
+                        <CustomButton 
+                            title='cancel'
+                            color='#cccccc'
+                            onPress={props.onCancel}
+                        />
+                        <CustomButton 
                             title='add plant' 
                             onPress={addPlantHandler} 
-                        />
-                        <Button 
-                            color='#B8405E'
-                            title='cancel' 
-                            onPress={props.onCancel}
                         />
                     </View>
                 </View>

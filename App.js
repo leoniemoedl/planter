@@ -3,6 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Platform, FlatList, Button } from 'react-native';
 import PlantItem from './components/PlantItem';
 import PlantInput from './components/PlantInput';
+import CustomButton from './components/CustomButton';
 
 export default function App() {
   const [plants, setPlants] = useState([]);
@@ -71,7 +72,8 @@ export default function App() {
         onAddPlant={addPlantHandler} 
         onCancel={closeAddPlantModal}
       />
-      <Button title='add' color='#B8405E' onPress={openAddPlantModal} />
+      {/* <Button title='add' color='#B8405E' onPress={openAddPlantModal} /> */}
+      <CustomButton title='add' onPress={openAddPlantModal} />
     </View>
   );
 }
