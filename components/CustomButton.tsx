@@ -1,6 +1,6 @@
 import { StyleSheet, Button, View } from 'react-native';
 
-export default function CustomButton(props) {
+export default function CustomButton(props : any) {
     const col = props.color ? props.color : '#B8405E'
 
     return(

@@ -2,10 +2,10 @@ import { useState } from 'react';
 import { StyleSheet, View, TextInput, Button, Modal, Text } from 'react-native';
 import CustomButton from './CustomButton';
 
-export default function PlantInput(props) {
+export default function PlantInput(props : any) {
     const [enteredPlantName, setEnteredPlantName] = useState('');
     
-    const textInputHandler = (enteredPlantName) => {
+    const textInputHandler = (enteredPlantName : any) => {
       setEnteredPlantName(enteredPlantName);
     };
     

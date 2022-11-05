@@ -1,7 +1,7 @@
 import { StyleSheet, View, Text, Pressable } from 'react-native';
 import CustomButton from './CustomButton';
 
-export default function PlantItem(props) {
+export default function PlantItem(props : any) {
     const test = () => {
         console.log(props.text);
     }
