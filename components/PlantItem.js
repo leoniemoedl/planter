@@ -2,10 +2,6 @@ import { StyleSheet, View, Text, Pressable } from 'react-native';
 import CustomButton from './CustomButton';
 
 export default function PlantItem(props) {
-    const test = () => {
-        console.log(props.text);
-    }
-
     return (
         <Pressable>
             <View style={styles.plantItem} >

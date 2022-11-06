@@ -9,10 +9,16 @@ export default function App() {
   const [plants, setPlants] = useState([]);
   const [addPlantModalIsVisible, setAddPlantModalIsVisible] = useState(false);
   
-  const addPlantHandler = (plantName) => {
+  const addPlantHandler = (plantName, waterRhythm, fertilizerRhythm, notes) => {
     setPlants(currentPlants => [
       ...currentPlants, 
-      { text: plantName, id: Math.random().toString() },
+      { 
+        text: plantName, 
+        id: Math.random().toString(),
+        fertilizerRhythm: fertilizerRhythm,
+        waterRhythm: waterRhythm,
+        notes: notes
+       },
     ]);
     closeAddPlantModal();
   };
@@ -55,8 +61,9 @@ export default function App() {
             return <PlantItem 
                       text={itemData.item.text}
                       id={itemData.item.id}
-                      waterRhythm={2}
-                      fertilizerRhythm={4}
+                      waterRhythm={itemData.item.waterRhythm}
+                      fertilizerRhythm={itemData.item.fertilizerRhythm}
+                      notes={itemData.item.notes}
                       onWaterPlant={() => waterPlantHandler(itemData.item.id)}
                       onDeletePlant={deletePlantHandler}
                     />;

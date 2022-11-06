@@ -25,7 +25,11 @@ export default function PlantInput(props) {
     };
     
     const addPlantHandler = () => {
-        props.onAddPlant(name);
+        if (name === '') {
+            console.log('todo: no name for plant');
+        }
+        props.onAddPlant(name, waterRhythm, fertilizerRhythm, notes);
+        setName('');
     }
 
     return (
@@ -55,7 +59,7 @@ export default function PlantInput(props) {
                     />
 
                     <TextInput
-                        onChangeText={inputWaterRhythmHandler}
+                        onChangeText={inputFertilizerRhythmHandler}
                         placeholder='fertilizer rhythm'
                         placeholderTextColor={'#cccccc'}
                         style={styles.textInput}
