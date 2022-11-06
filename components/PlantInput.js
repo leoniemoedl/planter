@@ -3,32 +3,64 @@ import { StyleSheet, View, TextInput, Button, Modal, Text } from 'react-native';
 import CustomButton from './CustomButton';
 
 export default function PlantInput(props) {
-    const [enteredPlantName, setEnteredPlantName] = useState('');
+    const [name, setName] = useState('');
+    const [waterRhythm, setWaterRhythm] = useState('');
+    const [fertilizerRhythm, setFertilizerRhythm] = useState('');
+    const [notes, setNotes] = useState('');
     
-    const textInputHandler = (enteredPlantName) => {
-      setEnteredPlantName(enteredPlantName);
+    const inputNameHandler = (name) => {
+        setName(name);
+    };
+
+    const inputWaterRhythmHandler = (waterRhythm) => {
+        setWaterRhythm(waterRhythm);
+    };
+
+    const inputFertilizerRhythmHandler = (fertilizerRhythm) => {
+        setFertilizerRhythm(fertilizerRhythm);
+    };
+
+    const inpuNotesHandler = (notes) => {
+        setNotes(notes);
     };
     
     const addPlantHandler = () => {
-        props.onAddPlant(enteredPlantName);
+        props.onAddPlant(name);
     }
 
     return (
         <Modal visible={props.visible} animationType='slide' >
             <View style={styles.container} >
+
                 <Text>Give some information about the plant:</Text>
+
                 <View style={styles.content} >
+
                     <View style={styles.image} >
                         <Text>placeholder image</Text>
                     </View>
+
                     <TextInput 
-                        onChangeText={textInputHandler} 
+                        onChangeText={inputNameHandler} 
                         placeholder='name'
                         placeholderTextColor='#cccccc'
                         style={styles.textInput}
                     />
-                    <Text>Water rhythm:</Text>
-                    <Text>Fertilizer rhythm:</Text>
+
+                    <TextInput
+                        onChangeText={inputWaterRhythmHandler}
+                        placeholder='water rhythm'
+                        placeholderTextColor={'#cccccc'}
+                        style={styles.textInput}
+                    />
+
+                    <TextInput
+                        onChangeText={inputWaterRhythmHandler}
+                        placeholder='fertilizer rhythm'
+                        placeholderTextColor={'#cccccc'}
+                        style={styles.textInput}
+                    />
+
                     <TextInput 
                         placeholder='notes'
                         placeholderTextColor={'#cccccc'}

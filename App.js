@@ -9,10 +9,10 @@ export default function App() {
   const [plants, setPlants] = useState([]);
   const [addPlantModalIsVisible, setAddPlantModalIsVisible] = useState(false);
   
-  const addPlantHandler = (enteredPlantName) => {
+  const addPlantHandler = (plantName) => {
     setPlants(currentPlants => [
       ...currentPlants, 
-      { text: enteredPlantName, id: Math.random().toString() },
+      { text: plantName, id: Math.random().toString() },
     ]);
     closeAddPlantModal();
   };
