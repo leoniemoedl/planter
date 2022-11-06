@@ -1,11 +1,3 @@
+import { Plant } from "./Plant";
 
-export interface Plant {
-
-    name: string,
-    id: string,
-    watered?: boolean,
-    waterCycle?: number,
-    fertilized?: boolean,
-    fertilizeCycle?: number,
-
-}
+export type {Plant};

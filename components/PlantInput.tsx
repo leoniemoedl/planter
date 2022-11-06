@@ -1,16 +1,40 @@
 import { useState } from 'react';
 import { StyleSheet, View, TextInput, Button, Modal, Text } from 'react-native';
+import { Plant } from '../features/plant/types';
 import CustomButton from './CustomButton';
 
-export default function PlantInput(props : any) {
-    const [enteredPlantName, setEnteredPlantName] = useState('');
+interface PlantInputProps {
+    visible : boolean;
+    onAddPlant : Function;
+    onCancel : Function;
+}
+
+export default function PlantInput(props : PlantInputProps) {        // {visible, onCancel, onAddPlant} possible instead of props 
+    const [enteredPlantName, setEnteredPlantName] = useState('');   
+    const [waterCycle, setWaterCycle] = useState(0);   
+    const [fertilizeCycle, setFertilizeCycle] = useState(0);   
     
-    const textInputHandler = (enteredPlantName : any) => {
+    const nameInputHandler = (enteredPlantName : string) => {
       setEnteredPlantName(enteredPlantName);
+    };
+
+    const waterInputHandler = (waterCycle : string) => {
+        setWaterCycle(parseInt(waterCycle));
+    };
+
+    const fertilizeInputHandler = (fertilizeCycle : string) => {
+        setFertilizeCycle(parseInt(fertilizeCycle));
     };
     
     const addPlantHandler = () => {
-        props.onAddPlant(enteredPlantName);
+        const plantDto : Plant = {name: enteredPlantName, 
+            id: Math.random().toString(),
+            watered: false,
+            waterCycle: waterCycle,
+            fertilized: false,
+            fertilizeCycle: fertilizeCycle
+        }
+        props.onAddPlant(plantDto);
     }
 
     return (
@@ -22,13 +46,27 @@ export default function PlantInput(props : any) {
                         <Text>placeholder image</Text>
                     </View>
                     <TextInput 
-                        onChangeText={textInputHandler} 
+                        onChangeText={nameInputHandler} 
                         placeholder='name'
                         placeholderTextColor='#cccccc'
                         style={styles.textInput}
                     />
-                    <Text>Water rhythm:</Text>
-                    <Text>Fertilizer rhythm:</Text>
+                    <Text style={styles.textInput}>Water rhythm:</Text>
+                    <TextInput 
+                        onChangeText={waterInputHandler} 
+                        placeholder='days'
+                        placeholderTextColor={'#cccccc'}
+                        multiline={false}
+                        style={styles.textInput}
+                    />
+                    <Text style={styles.textInput}>Fertilizer rhythm:</Text>
+                    <TextInput 
+                        onChangeText={fertilizeInputHandler} 
+                        placeholder='weeks'
+                        placeholderTextColor={'#cccccc'}
+                        multiline={false}
+                        style={styles.textInput}
+                    />
                     <TextInput 
                         placeholder='notes'
                         placeholderTextColor={'#cccccc'}

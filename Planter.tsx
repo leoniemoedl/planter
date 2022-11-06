@@ -11,8 +11,8 @@ export default function Planter() {
   const [plants, setPlants] = useState<Plant[]>([]);
   const [addPlantModalIsVisible, setAddPlantModalIsVisible] = useState(false);
 
-  const addPlantHandler = (enteredPlantName: string) => {
-    setPlants([...plants, { name: enteredPlantName, id: Math.random().toString() }]);
+  const addPlantHandler = (plantDto : Plant) => {
+    setPlants([...plants, plantDto]);
     // setPlants(currentPlants =>   // in this case: plants = setPlants(plants)
     //   [
     //     ...currentPlants,
@@ -25,7 +25,7 @@ export default function Planter() {
   const waterPlantHandler = (id: string) => {
     const updatedPlants = plants.map(plant => {
       if (plant.id === id) {
-        return { ...plant, text: 'Hello world' };
+        return { ...plant, name: 'yay gegossen' };
       }
       return plant;
     });
@@ -34,9 +34,6 @@ export default function Planter() {
 
   const deletePlantHandler = (id: string) => {
     setPlants(plants.filter((plant) => plant.id !== id));
-    // setPlants(currentPlants => {
-    //   return currentPlants.filter((plant) => plant.id !== id);
-    // });
   };
 
   const openAddPlantModal = () => {
@@ -57,13 +54,13 @@ export default function Planter() {
       <View style={styles.plantContainer}>
         <FlatList
           data={plants}
-          renderItem={itemData => {
+          renderItem={({index, item}) => {
             return <PlantItem
-              text={itemData.item.name}
-              id={itemData.item.id}
-              waterRhythm={2}
-              fertilizerRhythm={4}
-              onWaterPlant={() => waterPlantHandler(itemData.item.id)}
+              text={item.name}
+              id={item.id}
+              waterRhythm={item.waterCycle}
+              fertilizerRhythm={item.fertilizeCycle}
+              onWaterPlant={() => waterPlantHandler(item.id)}
               onDeletePlant={deletePlantHandler}
             />;
           }}
