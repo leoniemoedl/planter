@@ -8,10 +8,12 @@ export default function PlantItem(props) {
                 <Text>{props.name}</Text>
                 <View style={styles.userInteraction} >
                     <View style={styles.col} >
+                        <Text>Needs water in {props.lastWatered} days</Text> 
                         <Text>Water rhythm: {props.waterRhythm} days</Text> 
                         <CustomButton title='give water' onPress={props.onWaterPlant} />
                     </View>
                     <View style={styles.col} >
+                        <Text>Needs fertilizer in {props.lastFertilized} days</Text> 
                         <Text>Fertilizer rhythm: {props.fertilizerRhythm} weeks</Text>
                         <CustomButton title='fertilize' />
                     </View>

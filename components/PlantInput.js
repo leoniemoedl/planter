@@ -3,11 +3,21 @@ import { StyleSheet, View, TextInput, Modal, Text } from 'react-native';
 import CustomButton from './CustomButton';
 
 export default function PlantInput(props) {
+    const getDate = () => {
+        const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        let currentDate = new Date(new Date().getDate() + ' ' + months[new Date().getMonth()] + ' ' + new Date().getFullYear());
+
+        return currentDate.toString();
+        // return '02 Nov 2022';
+    }
+
     const [name, setName] = useState('');
     const [waterRhythm, setWaterRhythm] = useState('');
+    const [lastWatered, setLastWatered] = useState(getDate());
     const [fertilizerRhythm, setFertilizerRhythm] = useState('');
+    const [lastFertilized, setLastFertilized] = useState(getDate());
     const [notes, setNotes] = useState('');
-    
+
     const inputNameHandler = (name) => {
         setName(name);
     };
@@ -16,8 +26,16 @@ export default function PlantInput(props) {
         setWaterRhythm(waterRhythm);
     };
 
+    const inputLastWateredHandler = (lastWatered) => {
+        setLastWatered(lastWatered);
+    };
+    
     const inputFertilizerRhythmHandler = (fertilizerRhythm) => {
         setFertilizerRhythm(fertilizerRhythm);
+    };
+
+    const inputLastFertilizedHandler = (lastFertilized) => {
+        setLastFertilized(lastFertilized);
     };
 
     const inpuNotesHandler = (notes) => {
@@ -28,7 +46,7 @@ export default function PlantInput(props) {
         if (name === '') {
             console.log('todo: no name for plant');
         }
-        props.onAddPlant(name, waterRhythm, fertilizerRhythm, notes);
+        props.onAddPlant(name, waterRhythm, lastWatered, fertilizerRhythm, lastFertilized, notes);
         setName('');
     }
 
@@ -58,9 +76,25 @@ export default function PlantInput(props) {
                         style={styles.textInput}
                     />
 
+                    <Text>Last watered:</Text>
+                    <TextInput
+                        onChangeText={inputLastWateredHandler}
+                        placeholder={getDate()}
+                        placeholderTextColor={'#cccccc'}
+                        style={styles.textInput}
+                    />
+
                     <TextInput
                         onChangeText={inputFertilizerRhythmHandler}
                         placeholder='fertilizer rhythm'
+                        placeholderTextColor={'#cccccc'}
+                        style={styles.textInput}
+                    />
+
+                    <Text>Last fertilized:</Text>
+                    <TextInput
+                        onChangeText={inputLastFertilizedHandler}
+                        placeholder={getDate()}
                         placeholderTextColor={'#cccccc'}
                         style={styles.textInput}
                     />

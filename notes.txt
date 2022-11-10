@@ -4,5 +4,5 @@ plant:
     water rhtythm
     fertilizer rhtythm
     notes
-    last time watered/next time water necessary
-    last time fertilized/next time fertilizer necessary
+    last time watered
+    last time fertilized
