@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { StyleSheet, View, TextInput, Button, Modal, Text } from 'react-native';
+import { StyleSheet, View, TextInput, Modal, Text } from 'react-native';
 import CustomButton from './CustomButton';
 
 export default function PlantInput(props) {
@@ -66,6 +66,7 @@ export default function PlantInput(props) {
                     />
 
                     <TextInput 
+                        onChangeText={inpuNotesHandler}
                         placeholder='notes'
                         placeholderTextColor={'#cccccc'}
                         multiline={true}

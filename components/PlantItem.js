@@ -3,9 +3,9 @@ import CustomButton from './CustomButton';
 
 export default function PlantItem(props) {
     return (
-        <Pressable>
+        <Pressable onPress={props.onOpenPlantInfo}>
             <View style={styles.plantItem} >
-                <Text>{props.text}</Text>
+                <Text>{props.name}</Text>
                 <View style={styles.userInteraction} >
                     <View style={styles.col} >
                         <Text>Water rhythm: {props.waterRhythm} days</Text> 

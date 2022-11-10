@@ -3,17 +3,20 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Platform, FlatList, Button } from 'react-native';
 import PlantItem from './components/PlantItem';
 import PlantInput from './components/PlantInput';
+import PlantInfo from './components/PlantInfo';
 import CustomButton from './components/CustomButton';
 
 export default function App() {
   const [plants, setPlants] = useState([]);
   const [addPlantModalIsVisible, setAddPlantModalIsVisible] = useState(false);
+  const [plantInfoModalIsVisible, setPlantInfoModalIsVisible] = useState(false);
+  const [selectedPlant, setSelectedPlant] = useState({});
   
   const addPlantHandler = (plantName, waterRhythm, fertilizerRhythm, notes) => {
     setPlants(currentPlants => [
       ...currentPlants, 
       { 
-        text: plantName, 
+        name: plantName, 
         id: Math.random().toString(),
         fertilizerRhythm: fertilizerRhythm,
         waterRhythm: waterRhythm,
@@ -26,7 +29,7 @@ export default function App() {
   const waterPlantHandler = (id) => {
     const updatedPlants = plants.map(plant => {
       if (plant.id === id) {
-        return { ...plant, text: 'Hello world' };
+        return { ...plant, name: 'Hello world' };
       }
       return plant;
     });
@@ -47,6 +50,15 @@ export default function App() {
     setAddPlantModalIsVisible(false);
   };
 
+  const openPlantInfoModal = (id, name, water, fertilizer, notes) => {
+    setSelectedPlant({id: id, name: name, waterRhythm: water, fertilizerRhythm: fertilizer, notes: notes});
+    setPlantInfoModalIsVisible(true);
+  }
+
+  const closePlantInfoModal = () => {
+    setPlantInfoModalIsVisible(false);
+  }
+
   return (
     <View style={styles.appContainer}>
 
@@ -59,13 +71,14 @@ export default function App() {
           data={plants} 
           renderItem={itemData => {
             return <PlantItem 
-                      text={itemData.item.text}
+                      name={itemData.item.name}
                       id={itemData.item.id}
                       waterRhythm={itemData.item.waterRhythm}
                       fertilizerRhythm={itemData.item.fertilizerRhythm}
                       notes={itemData.item.notes}
                       onWaterPlant={() => waterPlantHandler(itemData.item.id)}
                       onDeletePlant={deletePlantHandler}
+                      onOpenPlantInfo={() => openPlantInfoModal(itemData.item.id, itemData.item.name, itemData.item.waterRhythm, itemData.item.fertilizerRhythm, itemData.item.notes)}
                     />;
           }}
           keyExtractor={(item, index) => {
@@ -79,7 +92,14 @@ export default function App() {
         onAddPlant={addPlantHandler} 
         onCancel={closeAddPlantModal}
       />
-      {/* <Button title='add' color='#B8405E' onPress={openAddPlantModal} /> */}
+
+      <PlantInfo 
+        visible={plantInfoModalIsVisible}
+        onOpenPlantInfo={openPlantInfoModal}
+        onCancel={closePlantInfoModal}
+        plant={selectedPlant}
+      />
+      
       <CustomButton title='add' onPress={openAddPlantModal} />
     </View>
   );
