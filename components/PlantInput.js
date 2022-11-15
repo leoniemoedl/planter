@@ -5,7 +5,7 @@ import CustomButton from './CustomButton';
 
 export default function PlantInput(props) {
     const [name, setName] = useState('');
-    const [waterRhythm, setWaterRhythm] = useState('');
+    const [waterRhythm, setWaterRhythm] = useState();
     const [fertilizerRhythm, setFertilizerRhythm] = useState('');
     const [notes, setNotes] = useState('');
     const [fertilizeDate, setFertilizeDate] = useState(new Date());
@@ -44,11 +44,11 @@ export default function PlantInput(props) {
     };
 
     const inputWaterRhythmHandler = (waterRhythm) => {
-        setWaterRhythm(waterRhythm);
+        setWaterRhythm(parseInt(waterRhythm, 10));
     };
     
     const inputFertilizerRhythmHandler = (fertilizerRhythm) => {
-        setFertilizerRhythm(fertilizerRhythm);
+        setFertilizerRhythm(parseInt(fertilizerRhythm, 10));
     };
 
     const inpuNotesHandler = (notes) => {

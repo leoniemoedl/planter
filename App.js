@@ -19,7 +19,7 @@ export default function App() {
         name: plantName, 
         id: Math.random().toString(),
         waterRhythm: waterRhythm,
-        lastWatered: lastWatered.toString(),
+        lastWatered: lastWatered,
         fertilizerRhythm: fertilizerRhythm,
         lastFertilized: lastFertilized.toString(),
         notes: notes
