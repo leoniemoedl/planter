@@ -2,13 +2,18 @@ import { StyleSheet, View, Text, Pressable } from 'react-native';
 import CustomButton from './CustomButton';
 
 export default function PlantItem(props) {
+    const getDateFormatted = (dateString) => {
+        let date = new Date(dateString);
+        return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
+    };
+
     return (
         <Pressable onPress={props.onOpenPlantInfo}>
             <View style={styles.plantItem} >
                 <Text>{props.name}</Text>
                 <View style={styles.userInteraction} >
                     <View style={styles.col} >
-                        <Text>Needs water in {props.lastWatered} days</Text> 
+                        <Text>Needs water in {getDateFormatted(props.lastWatered)} days</Text> 
                         <Text>Water rhythm: {props.waterRhythm} days</Text> 
                         <CustomButton title='give water' onPress={props.onWaterPlant} />
                     </View>

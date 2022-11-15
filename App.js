@@ -19,9 +19,9 @@ export default function App() {
         name: plantName, 
         id: Math.random().toString(),
         waterRhythm: waterRhythm,
-        lastWatered: lastWatered,
+        lastWatered: lastWatered.toString(),
         fertilizerRhythm: fertilizerRhythm,
-        lastFertilized: lastFertilized,
+        lastFertilized: lastFertilized.toString(),
         notes: notes
        },
     ]);
@@ -82,7 +82,6 @@ export default function App() {
                       waterRhythm={itemData.item.waterRhythm}
                       lastWatered={itemData.item.lastWatered}
                       fertilizerRhythm={itemData.item.fertilizerRhythm}
-                      huhu={test(itemData.item.lastFertilized)}
                       lastFertilized={itemData.item.lastFertilized}
                       notes={itemData.item.notes}
                       onWaterPlant={() => waterPlantHandler(itemData.item.id)}
@@ -110,7 +109,7 @@ export default function App() {
       />
       
       <CustomButton title='add' onPress={openAddPlantModal} />
-      <CustomButton title='test' onPress={test} />
+      
     </View>
   );
 }

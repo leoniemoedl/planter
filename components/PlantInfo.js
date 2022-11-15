@@ -3,6 +3,8 @@ import CustomButton from './CustomButton';
 
 export default function PlantItem(props) {
     const getDiffDays = (date) => {
+        console.log("test     " + date);
+
         let pastDate = new Date(date);
         const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
         let currentDate = new Date(new Date().getDate() + " " + months[new Date().getMonth()] + " " + new Date().getFullYear());

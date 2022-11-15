@@ -1,43 +1,24 @@
-import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 import { useState } from 'react';
-import { StyleSheet, View, TextInput, Modal, Text, Button } from 'react-native';
+import { StyleSheet, View, TextInput, Modal, Text } from 'react-native';
 import CustomButton from './CustomButton';
 
 export default function PlantInput(props) {
+    const getDate = () => {
+        const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        let currentDate = new Date(new Date().getDate() + ' ' + months[new Date().getMonth()] + ' ' + new Date().getFullYear());
+        console.log("day: " + new Date().getDate());
+        console.log("month: " + new Date().getMonth());
+        console.log("year: " + new Date().getFullYear());
+        return currentDate.toString();
+        // return '02 Nov 2022';
+    }
+
     const [name, setName] = useState('');
     const [waterRhythm, setWaterRhythm] = useState('');
+    const [lastWatered, setLastWatered] = useState(getDate());
     const [fertilizerRhythm, setFertilizerRhythm] = useState('');
+    const [lastFertilized, setLastFertilized] = useState(getDate());
     const [notes, setNotes] = useState('');
-    const [fertilizeDate, setFertilizeDate] = useState(new Date());
-    const [wateredDate, setWateredDate] = useState(new Date());
-
-    const onChangeWateredDate = (event, selectedDate) => {
-        let currentDate = selectedDate;
-        setWateredDate(currentDate);
-    }
-
-    const onChangeFertilizedDate = (event, selectedDate) => {
-        let currentDate = selectedDate;
-        setFertilizeDate(currentDate);
-    }
-
-    const showDateWateredPicker = () => {
-        DateTimePickerAndroid.open({
-            value: wateredDate,
-            onChange: onChangeWateredDate,
-            mode: 'date',
-            is24Hour: true
-        });
-    }
-
-    const showDateFertilizedPicker = () => {
-        DateTimePickerAndroid.open({
-            value: fertilizeDate,
-            onChange: onChangeFertilizedDate,
-            mode: 'date',
-            is24Hour: true
-        });
-    }
 
     const inputNameHandler = (name) => {
         setName(name);
@@ -46,9 +27,17 @@ export default function PlantInput(props) {
     const inputWaterRhythmHandler = (waterRhythm) => {
         setWaterRhythm(waterRhythm);
     };
+
+    const inputLastWateredHandler = (lastWatered) => {
+        setLastWatered(lastWatered);
+    };
     
     const inputFertilizerRhythmHandler = (fertilizerRhythm) => {
         setFertilizerRhythm(fertilizerRhythm);
+    };
+
+    const inputLastFertilizedHandler = (lastFertilized) => {
+        setLastFertilized(lastFertilized);
     };
 
     const inpuNotesHandler = (notes) => {
@@ -59,15 +48,12 @@ export default function PlantInput(props) {
         if (name === '') {
             console.log('todo: no name for plant');
         }
-        props.onAddPlant(
-                name, 
-                waterRhythm, 
-                wateredDate, 
-                fertilizerRhythm, 
-                fertilizeDate, 
-                notes
-        );
+        props.onAddPlant(name, waterRhythm, lastWatered, fertilizerRhythm, lastFertilized, notes);
         setName('');
+        setWaterRhythm('');
+        setLastWatered('');
+        setFertilizerRhythm('');
+        setLastFertilized('');
     }
 
     return (
@@ -96,13 +82,13 @@ export default function PlantInput(props) {
                         style={styles.textInput}
                     />
 
-                    <View style={styles.dateSelection} >
-                        <Text>Last watered: {wateredDate.getDate() + '/' + (wateredDate.getMonth() + 1) + '/' + wateredDate.getFullYear()}</Text>
-                        <CustomButton
-                            title='Calendar'
-                            onPress={() => showDateWateredPicker()}
-                        />
-                    </View>
+                    <Text>Last watered:</Text>
+                    <TextInput
+                        onChangeText={inputLastWateredHandler}
+                        placeholder={getDate()}
+                        placeholderTextColor={'#cccccc'}
+                        style={styles.textInput}
+                    />
 
                     <TextInput
                         onChangeText={inputFertilizerRhythmHandler}
@@ -111,13 +97,13 @@ export default function PlantInput(props) {
                         style={styles.textInput}
                     />
 
-                    <View style={styles.dateSelection} >
-                        <Text>Last fertilized: {fertilizeDate.getDate() + '/' + (fertilizeDate.getMonth() + 1) + '/' + fertilizeDate.getFullYear()}</Text>
-                        <CustomButton
-                            title='Calendar'
-                            onPress={() => showDateFertilizedPicker()}
-                            />
-                    </View>
+                    <Text>Last fertilized:</Text>
+                    <TextInput
+                        onChangeText={inputLastFertilizedHandler}
+                        placeholder={getDate()}
+                        placeholderTextColor={'#cccccc'}
+                        style={styles.textInput}
+                    />
 
                     <TextInput 
                         onChangeText={inpuNotesHandler}
@@ -149,14 +135,13 @@ const styles = StyleSheet.create({
         padding: 20,
         backgroundColor: '#313552',
     },
+    content: {
+
+    },
     image: {
         backgroundColor: '#EEE6CE',
         width: '100%',
         height: 200
-    },
-    dateSelection: {
-        flexDirection: 'row',
-        alignItems: 'center'
     },
     textInput: {
         height: 35,
