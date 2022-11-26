@@ -31,7 +31,17 @@ export default function App() {
   const waterPlantHandler = (id) => {
     const updatedPlants = plants.map(plant => {
       if (plant.id === id) {
-        return { ...plant, lastWatered: plant.waterRhythm };
+        return { ...plant, lastWatered: new Date() };
+      }
+      return plant;
+    });
+    setPlants(updatedPlants);
+  };
+
+  const fertilizePlantHandler = (id) => {
+    const updatedPlants = plants.map(plant => {
+      if (plant.id === id) {
+        return { ...plant, lastFertilized: new Date() };
       }
       return plant;
     });
