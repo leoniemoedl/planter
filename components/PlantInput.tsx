@@ -1,33 +1,48 @@
 import { useState } from 'react';
 import { StyleSheet, View, TextInput, Button, Modal, Text } from 'react-native';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import plantListState from '../features/plant/atoms/PlantAtom';
 import { Plant } from '../features/plant/types';
 import CustomButton from './CustomButton';
 
 interface PlantInputProps {
-    visible : boolean;
-    onAddPlant : Function;
-    onCancel : Function;
+    visible: boolean;
+    onAddPlant: Function;
+    onCancel: Function;
 }
 
-export default function PlantInput(props : PlantInputProps) {        // {visible, onCancel, onAddPlant} possible instead of props 
-    const [enteredPlantName, setEnteredPlantName] = useState('');   
-    const [waterCycle, setWaterCycle] = useState(0);   
-    const [fertilizeCycle, setFertilizeCycle] = useState(0);   
-    
-    const nameInputHandler = (enteredPlantName : string) => {
-      setEnteredPlantName(enteredPlantName);
+function a() {
+    const [waterCycle, setWaterCycle] = useState(0);
+    return waterCycle;
+}
+
+export default function PlantInput(props: PlantInputProps) {        // {visible, onCancel, onAddPlant} possible instead of props 
+    const [enteredPlantName, setEnteredPlantName] = useState('');
+    const [waterCycle, setWaterCycle] = useState(0);
+    const [fertilizeCycle, setFertilizeCycle] = useState(0);
+
+    const plantList = useRecoilValue(plantListState);
+
+    const getPlantsThatNeedToBeWatered = () => {
+        return plantList.filter(plant => plant.waterCycle < 5);
+    }
+
+
+    const nameInputHandler = (enteredPlantName: string) => {
+        setEnteredPlantName(enteredPlantName);
     };
 
-    const waterInputHandler = (waterCycle : string) => {
+    const waterInputHandler = (waterCycle: string) => {
         setWaterCycle(parseInt(waterCycle));
     };
 
-    const fertilizeInputHandler = (fertilizeCycle : string) => {
+    const fertilizeInputHandler = (fertilizeCycle: string) => {
         setFertilizeCycle(parseInt(fertilizeCycle));
     };
-    
+
     const addPlantHandler = () => {
-        const plantDto : Plant = {name: enteredPlantName, 
+        const plantDto: Plant = {
+            name: enteredPlantName,
             id: Math.random().toString(),
             watered: false,
             waterCycle: waterCycle,
@@ -43,45 +58,45 @@ export default function PlantInput(props : PlantInputProps) {        // {visible
                 <Text>Give some information about the plant:</Text>
                 <View style={styles.content} >
                     <View style={styles.image} >
-                        <Text>placeholder image</Text>
+                        <Text>{plantList[0].name}</Text>
                     </View>
-                    <TextInput 
-                        onChangeText={nameInputHandler} 
+                    <TextInput
+                        onChangeText={nameInputHandler}
                         placeholder='name'
                         placeholderTextColor='#cccccc'
                         style={styles.textInput}
                     />
                     <Text style={styles.textInput}>Water rhythm:</Text>
-                    <TextInput 
-                        onChangeText={waterInputHandler} 
+                    <TextInput
+                        onChangeText={waterInputHandler}
                         placeholder='days'
                         placeholderTextColor={'#cccccc'}
                         multiline={false}
                         style={styles.textInput}
                     />
                     <Text style={styles.textInput}>Fertilizer rhythm:</Text>
-                    <TextInput 
-                        onChangeText={fertilizeInputHandler} 
+                    <TextInput
+                        onChangeText={fertilizeInputHandler}
                         placeholder='weeks'
                         placeholderTextColor={'#cccccc'}
                         multiline={false}
                         style={styles.textInput}
                     />
-                    <TextInput 
+                    <TextInput
                         placeholder='notes'
                         placeholderTextColor={'#cccccc'}
                         multiline={true}
                         style={styles.textInput}
                     />
                     <View style={styles.buttonContainer} >
-                        <CustomButton 
+                        <CustomButton
                             title='cancel'
                             color='#cccccc'
                             onPress={props.onCancel}
                         />
-                        <CustomButton 
-                            title='add plant' 
-                            onPress={addPlantHandler} 
+                        <CustomButton
+                            title='add plant'
+                            onPress={addPlantHandler}
                         />
                     </View>
                 </View>
