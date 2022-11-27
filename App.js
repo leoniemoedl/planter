@@ -92,7 +92,7 @@ export default function App() {
                       waterRhythm={itemData.item.waterRhythm}
                       lastWatered={itemData.item.lastWatered}
                       fertilizerRhythm={itemData.item.fertilizerRhythm}
-                      lastFertilized={itemData.item.lastFertilized}
+                      lastFertilized={fertilizePlantHandler(itemData.item.id)}
                       notes={itemData.item.notes}
                       onWaterPlant={() => waterPlantHandler(itemData.item.id)}
                       onDeletePlant={deletePlantHandler}
