@@ -5,7 +5,7 @@ const plantListState = atom({
     key: 'PlantList',
     default: [new Plant({
         id : "0",
-        name : "susi",
+        name : "Susi",
         waterCycle : 5,
         fertilizeCycle : 5,
         lastWatered : new Date(),

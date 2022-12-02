@@ -74,6 +74,13 @@ export default function usePlants() {
         return plantList.find(plant => plant.id === id);
     }
 
+    const getDiffDays = (date: Date) => { // todo: gehört das hierher?
+        let pastDate : Date = new Date(date);
+        let currentDate : Date = new Date();
+        let diffTime = currentDate.getTime() - pastDate.getTime();
+        return Math.floor(diffTime / (1000 * 3600 * 24));
+    }
+
     return {
         plantList,
         addPlant,
@@ -83,6 +90,7 @@ export default function usePlants() {
         fertilizePlantById,
         deletePlantById,
         getPlantbyId,
+        getDiffDays
     }
 
 }

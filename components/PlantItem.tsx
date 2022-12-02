@@ -9,7 +9,7 @@ interface PlantItemProps {
 
 export default function PlantItem(props: PlantItemProps) {
 
-    const { plantList, getPlantbyId, waterPlantById, fertilizePlantById } = usePlants();
+    const { plantList, getPlantbyId, waterPlantById, fertilizePlantById, getDiffDays } = usePlants();
     const plant = getPlantbyId(props.plantId);
     if (!plant) return <div></div>
 
@@ -27,13 +27,13 @@ export default function PlantItem(props: PlantItemProps) {
                 <Text>{plant.name}</Text>
                 <View style={styles.userInteraction} >
                     <View style={styles.col} >
-                        <Text>Neews water in XX days.</Text>
+                        <Text>Neews water in {plant.waterCycle - getDiffDays(plant.lastWatered)} days</Text>
                         <Text>Water rhythm: {plant.waterCycle} days</Text>
                         <CustomButton title='give water' onPress={waterHandler} />
                     </View>
                     <View style={styles.col} >
-                        <Text>Neews fertilizer in XX days.</Text>
-                        <Text>Fertilizer rhythm: {plant.fertilizeCycle} weeks</Text>
+                        <Text>Neews fertilizer in {plant.fertilizeCycle - getDiffDays(plant.lastFertilized)} days</Text>
+                        <Text>Fertilizer rhythm: {plant.fertilizeCycle} days</Text>
                         <CustomButton title='fertilize' onPress={fertilizeHandler} />
                     </View>
                 </View>
