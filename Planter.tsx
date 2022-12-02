@@ -16,25 +16,6 @@ export default function Planter() {
 
   const { plantList, addPlant, updatePlants, deletePlantById } = usePlants();
 
-  const addPlantHandler = (plantDto : Plant) => {
-    addPlant(plantDto);
-    closeAddPlantModal();
-  };
-
-  // const waterPlantHandler = (id: string) => {
-  //   const updatedPlants = plants.map(plant => {
-  //     if (plant.id === id) {
-  //       return { ...plant, name: 'yay gegossen' };
-  //     }
-  //     return plant;
-  //   });
-  //   setPlants(updatedPlants);
-  // };
-
-  // const deletePlantHandler = (id: string) => {
-  //   deletePlantById(id);
-  // };
-
   const openAddPlantModal = () => {
     setAddPlantModalIsVisible(true);
   };

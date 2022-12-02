@@ -50,11 +50,23 @@ export default function usePlants() {
     }
 
     const waterPlantById = (id : string) => {
-        console.log('yay gegossen');
+        const updatedPlants = plantList.map(plant => {
+            if (plant.id === id) {
+                return { ...plant, lastWatered: new Date() };
+            }
+            return plant;
+        });
+        setPlantList(updatedPlants);
     }
 
     const fertilizePlantById = (id : string) => {
-        console.log('yay gedüngt');
+        const updatedPlants = plantList.map(plant => {
+            if (plant.id === id) {
+                return { ...plant, lastFertilized: new Date() };
+            }
+            return plant;
+        });
+        setPlantList(updatedPlants);
     }
 
     const fetchAllPlants = () => {
