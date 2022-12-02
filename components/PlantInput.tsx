@@ -68,54 +68,70 @@ export default function PlantInput(props: PlantInputProps) {
     return (
         <Modal visible={props.visible} animationType='slide' >
             <View style={styles.container} >
-                <Text>Give some information about the plant:</Text>
-                <View style={styles.content} >
+                <View style={styles.header} >
+                    <Text>Give some information about the plant:</Text>
+                </View>
+                <View style={styles.content}>
                     <View style={styles.image} >
                         <Text>Placeholder</Text>
                     </View>
-                    <TextInput
-                        onChangeText={nameInputHandler}
-                        placeholder='name'
-                        placeholderTextColor='#cccccc'
-                        style={styles.textInput}
-                    />
-                    <Text style={styles.textInput}>Water rhythm:</Text>
-                    <TextInput
-                        onChangeText={waterInputHandler}
-                        placeholder='days'
-                        placeholderTextColor={'#cccccc'}
-                        multiline={false}
-                        style={styles.textInput}
-                    />
-                    <Text>Last watered:</Text>
-                    <CustomButton title='calendar' onPress={() => showLastWateredDatePicker('water')} />
-                    <Text style={styles.textInput}>Fertilizer rhythm:</Text>
-                    <TextInput
-                        onChangeText={fertilizeInputHandler}
-                        placeholder='weeks'
-                        placeholderTextColor={'#cccccc'}
-                        multiline={false}
-                        style={styles.textInput}
-                    />
-                    <Text>Last fertilized:</Text>
-                    <CustomButton title='calendar' onPress={() => showLastWateredDatePicker('fertilizer')} />
-                    <TextInput
-                        placeholder='notes'
-                        placeholderTextColor={'#cccccc'}
-                        multiline={true}
-                        style={styles.textInput}
-                    />
-                    <View style={styles.buttonContainer} >
-                        <CustomButton
-                            title='cancel'
-                            color='#cccccc'
-                            onPress={props.onClose}
-                        />
-                        <CustomButton
-                            title='add plant'
-                            onPress={addPlantHandler}
+                    <View style={styles.inputContainer}>
+                        <Text style={styles.tag}>Name:</Text>
+                        <TextInput
+                            onChangeText={nameInputHandler}
+                            placeholder='name'
+                            placeholderTextColor='#cccccc'
+                            style={styles.textInput}
                         />
                     </View>
+                    <View style={styles.inputContainer}>
+                        <Text style={styles.tag}>Water rhythm:</Text>
+                        <TextInput
+                            onChangeText={waterInputHandler}
+                            placeholder='days'
+                            placeholderTextColor={'#cccccc'}
+                            multiline={false}
+                            style={styles.textInput}
+                        />
+                    </View>
+                    <View style={styles.inputContainer}>
+                        <Text style={styles.tag}>Last watered:</Text>
+                        <CustomButton title='calendar' onPress={() => showLastWateredDatePicker('water')} />
+                    </View>
+                    <View style={styles.inputContainer}>
+                        <Text style={styles.tag}>Fertilizer rhythm:</Text>
+                        <TextInput
+                            onChangeText={fertilizeInputHandler}
+                            placeholder='weeks'
+                            placeholderTextColor={'#cccccc'}
+                            multiline={false}
+                            style={styles.textInput}
+                        />
+                    </View>
+                    <View style={styles.inputContainer}>
+                        <Text style={styles.tag}>Last fertilized:</Text>
+                        <CustomButton title='calendar' onPress={() => showLastWateredDatePicker('fertilizer')} />
+                    </View>
+                    <View style={styles.inputContainer}>
+                        <Text style={styles.tag}>Notes:</Text>
+                        <TextInput
+                            placeholder='notes'
+                            placeholderTextColor={'#cccccc'}
+                            multiline={true}
+                            style={styles.textInput}
+                        />
+                    </View>
+                </View>
+                <View style={styles.buttonContainer} >
+                    <CustomButton
+                        title='cancel'
+                        color='#cccccc'
+                        onPress={props.onClose}
+                    />
+                    <CustomButton
+                        title='add plant'
+                        onPress={addPlantHandler}
+                    />
                 </View>
             </View>
         </Modal>
@@ -125,11 +141,15 @@ export default function PlantInput(props: PlantInputProps) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        justifyContent: 'space-between',
         padding: 20,
         backgroundColor: '#313552',
     },
-    content: {
+    header: {
 
+    },
+    content: {
+        
     },
     image: {
         backgroundColor: '#EEE6CE',
@@ -138,11 +158,20 @@ const styles = StyleSheet.create({
     },
     textInput: {
         height: 35,
+        width: '70%',
         color: '#fff',
         backgroundColor: '#EEE6CE20'
     },
     buttonContainer: {
         flexDirection: 'row',
+        justifyContent: 'space-between'
+    },
+    tag: {
+        color: '#ffffff'
+    },
+    inputContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
         justifyContent: 'space-between'
     }
 });
