@@ -8,8 +8,26 @@ const plantListState = atom({
         name : "susi",
         waterCycle : 5,
         fertilizeCycle : 5,
-        lastWatered : new Date()
-    })],
+        lastWatered : new Date(),
+        lastFertilized: new Date()
+    }),
+    new Plant({
+        id: '1',
+        name: 'Steve',
+        waterCycle: 3,
+        fertilizeCycle: 21,
+        lastWatered: new Date(),
+        lastFertilized: new Date()
+    }),
+    new Plant({
+        id: '2',
+        name: 'Fritz',
+        waterCycle: 5,
+        fertilizeCycle: 20,
+        lastWatered: new Date(),
+        lastFertilized: new Date()
+    })]
 });
+
 
 export default plantListState;

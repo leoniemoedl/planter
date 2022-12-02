@@ -1,51 +1,42 @@
 import { useState } from 'react';
 import { StyleSheet, View, Text, Pressable } from 'react-native';
-import { useRecoilValue } from 'recoil';
-import plantListState from '../features/plant/atoms/PlantAtom';
-import Plant from '../features/plant/classes/Plant';
 import usePlants from '../features/plant/hooks/usePlants';
 import CustomButton from './CustomButton';
 
 interface PlantItemProps {
     plantId: string;
-    text: string;
 }
 
 export default function PlantItem(props: PlantItemProps) {
 
-    const { getPlantbyId, plantsThatNeedToBeWatered, updatePlants } = usePlants();
+    const { plantList, getPlantbyId, waterPlantById, fertilizePlantById } = usePlants();
     const plant = getPlantbyId(props.plantId);
-
     if (!plant) return <div></div>
 
-    const [waterCycle, setWaterCycle] = useState(0);
-    const test = () => {
-        console.log(props.text);
+    const waterHandler = () => {
+        waterPlantById(plant.id);
     }
 
-    const handleClick = () => {
-
+    const fertilizeHandler = () => {
+        fertilizePlantById(plant.id);
     }
 
     return (
         <Pressable>
             <View style={styles.plantItem} >
-                <Text>{props.text}</Text>
+                <Text>{plant.name}</Text>
                 <View style={styles.userInteraction} >
                     <View style={styles.col} >
+                        <Text>Neews water in XX days.</Text>
                         <Text>Water rhythm: {plant.waterCycle} days</Text>
-                        <CustomButton title='give water' onPress={plant.lastWatered} />
+                        <CustomButton title='give water' onPress={waterHandler} />
                     </View>
                     <View style={styles.col} >
+                        <Text>Neews fertilizer in XX days.</Text>
                         <Text>Fertilizer rhythm: {plant.fertilizeCycle} weeks</Text>
-                        <CustomButton title='fertilize' />
+                        <CustomButton title='fertilize' onPress={fertilizeHandler} />
                     </View>
                 </View>
-
-                {/* <View style={styles.plantBTNs}>
-                    <Button title='edit' color='#B8405E' />
-                    <Button title='delete' color='#B8405E' onPress={props.onDeletePlant.bind(this, props.id)} />
-                </View> */}
             </View>
         </Pressable>
     );

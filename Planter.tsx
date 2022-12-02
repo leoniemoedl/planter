@@ -4,37 +4,36 @@ import { StyleSheet, Text, View, Platform, FlatList, Button } from 'react-native
 import PlantItem from './components/PlantItem';
 import PlantInput from './components/PlantInput';
 import CustomButton from './components/CustomButton';
-import { Plant } from './features/plant/types';
+// import { Plant } from './features/plant/types';
+import Plant from './features/plant/classes/Plant';
+import plantListState from './features/plant/atoms/PlantAtom';
+import { RecoilRoot, useRecoilValue } from 'recoil';
+import usePlants from './features/plant/hooks/usePlants';
 
 
 export default function Planter() {
-  const [plants, setPlants] = useState<Plant[]>([]);
   const [addPlantModalIsVisible, setAddPlantModalIsVisible] = useState(false);
 
+  const { plantList, addPlant, updatePlants, deletePlantById } = usePlants();
+
   const addPlantHandler = (plantDto : Plant) => {
-    setPlants([...plants, plantDto]);
-    // setPlants(currentPlants =>   // in this case: plants = setPlants(plants)
-    //   [
-    //     ...currentPlants,
-    //     { text: enteredPlantName, id: Math.random().toString() },
-    //   ]
-    // );
+    addPlant(plantDto);
     closeAddPlantModal();
   };
 
-  const waterPlantHandler = (id: string) => {
-    const updatedPlants = plants.map(plant => {
-      if (plant.id === id) {
-        return { ...plant, name: 'yay gegossen' };
-      }
-      return plant;
-    });
-    setPlants(updatedPlants);
-  };
+  // const waterPlantHandler = (id: string) => {
+  //   const updatedPlants = plants.map(plant => {
+  //     if (plant.id === id) {
+  //       return { ...plant, name: 'yay gegossen' };
+  //     }
+  //     return plant;
+  //   });
+  //   setPlants(updatedPlants);
+  // };
 
-  const deletePlantHandler = (id: string) => {
-    setPlants(plants.filter((plant) => plant.id !== id));
-  };
+  // const deletePlantHandler = (id: string) => {
+  //   deletePlantById(id);
+  // };
 
   const openAddPlantModal = () => {
     setAddPlantModalIsVisible(true);
@@ -53,16 +52,9 @@ export default function Planter() {
 
       <View style={styles.plantContainer}>
         <FlatList
-          data={plants}
-          renderItem={({index, item}) => {
-            return <PlantItem
-              text={item.name}
-              id={item.id}
-              waterRhythm={item.waterCycle}
-              fertilizerRhythm={item.fertilizeCycle}
-              onWaterPlant={() => waterPlantHandler(item.id)}
-              onDeletePlant={deletePlantHandler}
-            />;
+          data={plantList}
+          renderItem={(itemData) => {
+            return <PlantItem plantId={itemData.item.id} />;
           }}
           keyExtractor={(item, index) => {
             return item.id;
@@ -72,8 +64,7 @@ export default function Planter() {
 
       <PlantInput
         visible={addPlantModalIsVisible}
-        onAddPlant={addPlantHandler}
-        onCancel={closeAddPlantModal}
+        onClose={closeAddPlantModal}
       />
       {/* <Button title='add' color='#B8405E' onPress={openAddPlantModal} /> */}
       <CustomButton title='add' onPress={openAddPlantModal} />

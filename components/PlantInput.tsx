@@ -2,31 +2,22 @@ import { useState } from 'react';
 import { StyleSheet, View, TextInput, Button, Modal, Text } from 'react-native';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import plantListState from '../features/plant/atoms/PlantAtom';
-import { Plant } from '../features/plant/types';
+// import { Plant } from '../features/plant/types';
+import Plant from '../features/plant/classes/Plant';
+import usePlants from '../features/plant/hooks/usePlants';
 import CustomButton from './CustomButton';
 
 interface PlantInputProps {
     visible: boolean;
-    onAddPlant: Function;
-    onCancel: Function;
+    onClose: Function;
 }
 
-function a() {
-    const [waterCycle, setWaterCycle] = useState(0);
-    return waterCycle;
-}
+export default function PlantInput(props: PlantInputProps) {
+    const { addPlant } = usePlants();
 
-export default function PlantInput(props: PlantInputProps) {        // {visible, onCancel, onAddPlant} possible instead of props 
     const [enteredPlantName, setEnteredPlantName] = useState('');
     const [waterCycle, setWaterCycle] = useState(0);
     const [fertilizeCycle, setFertilizeCycle] = useState(0);
-
-    const plantList = useRecoilValue(plantListState);
-
-    const getPlantsThatNeedToBeWatered = () => {
-        return plantList.filter(plant => plant.waterCycle < 5);
-    }
-
 
     const nameInputHandler = (enteredPlantName: string) => {
         setEnteredPlantName(enteredPlantName);
@@ -41,15 +32,16 @@ export default function PlantInput(props: PlantInputProps) {        // {visible,
     };
 
     const addPlantHandler = () => {
-        const plantDto: Plant = {
-            name: enteredPlantName,
-            id: Math.random().toString(),
-            watered: false,
-            waterCycle: waterCycle,
-            fertilized: false,
-            fertilizeCycle: fertilizeCycle
-        }
-        props.onAddPlant(plantDto);
+        let plant = new Plant({
+            id : Math.random().toString(),
+            name : enteredPlantName,
+            waterCycle : waterCycle,
+            fertilizeCycle : fertilizeCycle,
+            lastWatered : new Date(),
+            lastFertilized: new Date()
+        });
+        addPlant(plant);
+        props.onClose();
     }
 
     return (
@@ -58,7 +50,7 @@ export default function PlantInput(props: PlantInputProps) {        // {visible,
                 <Text>Give some information about the plant:</Text>
                 <View style={styles.content} >
                     <View style={styles.image} >
-                        <Text>{plantList[0].name}</Text>
+                        <Text>Placeholder</Text>
                     </View>
                     <TextInput
                         onChangeText={nameInputHandler}
@@ -74,6 +66,8 @@ export default function PlantInput(props: PlantInputProps) {        // {visible,
                         multiline={false}
                         style={styles.textInput}
                     />
+                    <Text>Last watered:</Text>
+                    <CustomButton title='calendar' />
                     <Text style={styles.textInput}>Fertilizer rhythm:</Text>
                     <TextInput
                         onChangeText={fertilizeInputHandler}
@@ -82,6 +76,8 @@ export default function PlantInput(props: PlantInputProps) {        // {visible,
                         multiline={false}
                         style={styles.textInput}
                     />
+                    <Text>Last fertilized:</Text>
+                    <CustomButton title='calendar' />
                     <TextInput
                         placeholder='notes'
                         placeholderTextColor={'#cccccc'}
@@ -92,7 +88,7 @@ export default function PlantInput(props: PlantInputProps) {        // {visible,
                         <CustomButton
                             title='cancel'
                             color='#cccccc'
-                            onPress={props.onCancel}
+                            onPress={props.onClose}
                         />
                         <CustomButton
                             title='add plant'

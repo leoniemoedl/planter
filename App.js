@@ -1,8 +1,9 @@
 import Planter from "./Planter";
+import { RecoilRoot } from "recoil";
 
 
 export default function App() {
 
-  return <Planter/>;
+  return <RecoilRoot><Planter/></RecoilRoot>;
   
 }

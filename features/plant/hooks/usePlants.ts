@@ -1,5 +1,6 @@
 import { useRecoilState, useRecoilValue } from "recoil";
 import plantListState from "../atoms/PlantAtom";
+import Plant from "../classes/Plant";
 
 
 // SHIT
@@ -27,7 +28,17 @@ export default function usePlants() {
 
     const [plantList, setPlantList] = useRecoilState(plantListState);
 
-    const plantsThatNeedToBeWatered = plantList.filter(plant => plant.needsToBeWatered());
+    // const plantsThatNeedToBeWatered = plantList.filter(plant => plant.needsToBeWatered());
+
+    const addPlant = (plant : Plant) => {
+        setPlantList(currentPlants =>
+            [
+                ...currentPlants,
+                // { text: enteredPlantName, id: Math.random().toString() },
+                plant
+            ]
+        );
+    }
 
     const updatePlants = (plantDto : any) => {
         // request to server
@@ -36,6 +47,14 @@ export default function usePlants() {
         setPlantList((prevPlantList) => {
             return prevPlantList.map(plant => plant.id === plantDto.id ? plantDto : plant);
         })
+    }
+
+    const waterPlantById = (id : string) => {
+        console.log('yay gegossen');
+    }
+
+    const fertilizePlantById = (id : string) => {
+        console.log('yay gedüngt');
     }
 
     const fetchAllPlants = () => {
@@ -57,9 +76,13 @@ export default function usePlants() {
 
     return {
         plantList,
-        plantsThatNeedToBeWatered,
+        addPlant,
+        // plantsThatNeedToBeWatered,
         updatePlants,
-        getPlantbyId
+        waterPlantById,
+        fertilizePlantById,
+        deletePlantById,
+        getPlantbyId,
     }
 
 }
