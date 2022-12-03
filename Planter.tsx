@@ -6,15 +6,15 @@ import PlantInput from './components/PlantInput';
 import CustomButton from './components/CustomButton';
 // import { Plant } from './features/plant/types';
 import Plant from './features/plant/classes/Plant';
-import plantListState from './features/plant/atoms/PlantAtom';
+import plantsState from './features/plant/atoms/PlantAtom';
 import { RecoilRoot, useRecoilValue } from 'recoil';
-import usePlants from './features/plant/hooks/usePlants';
+import usePlantsStore from './features/plant/hooks/usePlantsStore';
 
 
 export default function Planter() {
   const [addPlantModalIsVisible, setAddPlantModalIsVisible] = useState(false);
 
-  const { plantList, addPlant, updatePlants, deletePlantById } = usePlants();
+  const { plants, addPlant, updatePlant, deletePlantById } = usePlantsStore();
 
   const openAddPlantModal = () => {
     setAddPlantModalIsVisible(true);
@@ -33,7 +33,7 @@ export default function Planter() {
 
       <View style={styles.plantContainer}>
         <FlatList
-          data={plantList}
+          data={plants}
           renderItem={(itemData) => {
             return <PlantItem plantId={itemData.item.id} />;
           }}

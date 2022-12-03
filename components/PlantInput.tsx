@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { StyleSheet, View, TextInput, Button, Modal, Text } from 'react-native';
 import Plant from '../features/plant/classes/Plant';
-import usePlants from '../features/plant/hooks/usePlants';
+import usePlantsStore from '../features/plant/hooks/usePlantsStore';
 import CustomButton from './CustomButton';
 import { DateTimePickerAndroid, DateTimePickerEvent } from '@react-native-community/datetimepicker';
 
@@ -11,7 +11,7 @@ interface PlantInputProps {
 }
 
 export default function PlantInput(props: PlantInputProps) {
-    const { addPlant } = usePlants();
+    const { addPlant } = usePlantsStore();
 
     const [enteredPlantName, setEnteredPlantName] = useState('');
     const [waterCycle, setWaterCycle] = useState(0);

@@ -19,10 +19,24 @@ export default class Plant {
         this.lastFertilized = data.lastFertilized;
     }
 
-    // needsToBeWatered() {
-    //     // TODO
-    //     // return this.lastWatered + ;
-    //     return WATERING_THRESHOLD < 5;
-    // }
+    needsToBeWateredIn() : number{
+        // let pastDate : Date = new Date(date);
+        // let currentDate : Date = new Date();
+        // let diffTime = currentDate.getTime() - pastDate.getTime();
+        // return Math.floor(diffTime / (1000 * 3600 * 24));
+        return 10;
+    }
 
+    needsToBeFertilazedIn() : number{
+        // let pastDate : Date = new Date(date);
+        // let currentDate : Date = new Date();
+        // let diffTime = currentDate.getTime() - pastDate.getTime();
+        // return Math.floor(diffTime / (1000 * 3600 * 24));
+        return 10;
+    }
+
+    water() : void {
+        this.lastWatered = new Date();
+    }
 }
+

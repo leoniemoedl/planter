@@ -1,8 +1,8 @@
 import { atom } from "recoil";
 import Plant from "../classes/Plant";
 
-const plantListState = atom({
-    key: 'PlantList',
+const plantsState = atom({
+    key: 'plants',
     default: [new Plant({
         id : "0",
         name : "Susi",
@@ -30,4 +30,4 @@ const plantListState = atom({
 });
 
 
-export default plantListState;
+export default plantsState;
