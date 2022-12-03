@@ -14,7 +14,7 @@ import usePlantsStore from './features/plant/hooks/usePlantsStore';
 export default function Planter() {
   const [addPlantModalIsVisible, setAddPlantModalIsVisible] = useState(false);
 
-  const { plants, addPlant, updatePlant, deletePlantById } = usePlantsStore();
+  const { plants, createPlant, updatePlant, deletePlantById } = usePlantsStore();
 
   const openAddPlantModal = () => {
     setAddPlantModalIsVisible(true);

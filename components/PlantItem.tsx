@@ -12,6 +12,8 @@ export default function PlantItem(props: PlantItemProps) {
 
     const { waterPlantById, fertilizePlantById } = usePlantsStore();
     const {plant} = usePlant(props.plantId);
+    console.log(plant);
+    console.log("FUCK");
     // const plant = getPlantbyId(props.plantId);
     // const {plant} = usePlant(props.plantId);
 

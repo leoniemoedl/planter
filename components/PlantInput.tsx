@@ -11,7 +11,7 @@ interface PlantInputProps {
 }
 
 export default function PlantInput(props: PlantInputProps) {
-    const { addPlant } = usePlantsStore();
+    const { createPlant } = usePlantsStore();
 
     const [enteredPlantName, setEnteredPlantName] = useState('');
     const [waterCycle, setWaterCycle] = useState(0);
@@ -61,7 +61,7 @@ export default function PlantInput(props: PlantInputProps) {
             lastWatered : lastWateredDate,
             lastFertilized: new Date()
         });
-        addPlant(plant);
+        createPlant(plant);
         props.onClose();
     }
 

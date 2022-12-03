@@ -2,99 +2,113 @@ import { cloneDeep } from "lodash";
 import { useRecoilState } from "recoil";
 import plantsState from "../atoms/PlantAtom";
 import Plant from "../classes/Plant";
+import plantService from "../services";
 
-// SHIT
+
+// Inge will folgendes noch anschauen 
+
+// Not working
 // export function getPlantsThatNeedToBeWatered1(obj : any) {
 //     const [plants, setPlants] = useRecoilState(plantsState);
 //     setPlants(obj);
 // }
 
+// Not working
 // export const getPlantsThatNeedToBeWatered3 = () => {
 //     const plants = useRecoilValue(plantsState);
 //     return plants.filter(plant => plant.age < 5);
 // }
 
+// possible but not sure if that is good
 // export const getPlantsThatNeedToBeWatered2 = (plants : any[]) => {
 //     return plants.filter(plant => plant.age < 5);
 // }
 
+// not working
 // export const getPlantsThatNeedToBeWatered4 = () => {
 //     const plants = useRecoilValue(plantsState);
 //     return plants.filter(plant => plant.age < 5);
 // }
 
 
-
-
 export default function usePlantsStore() {
 
     const [plants, setPlants] = useRecoilState(plantsState);
 
-    // const plantsThatNeedToBeWatered = plants.filter(plant => plant.needsToBeWatered());
-
-    const addPlant = (plant : Plant) => {
-        setPlants(currentPlants =>
-            [
-                ...currentPlants,
-                plant
-            ]
-        );
-    }
-
-    const updatePlant = (plantDto : any) => {
-        // request to server
-        
-        // if request was successsful, then update plant here
-        setPlants((prevplants) => {
-            return prevplants.map(plant => plant.id === plantDto.id ? plantDto : plant);
-        })
-    }
-
-    const waterPlantById = (id : string) => {
+    const waterPlantById = (id: string) => {
         const plant = cloneDeep(getPlantbyId(id) as Plant);
         plant.water();
+
+        console.log(plant.lastWatered);
 
         updatePlant(plant);
     }
 
-    const fertilizePlantById = (id : string) => {
-        const updatedPlants = plants.map(plant => {
-            if (plant.id === id) {
-                return { ...plant, lastFertilized: new Date() };
-            }
-            return plant;
-        });
-        // setPlants(updatedPlants);
+    const fertilizePlantById = (id: string) => {
+        const plant = cloneDeep(getPlantbyId(id) as Plant);
+        plant.fertilize();
+
+        updatePlant(plant);
     }
 
     const fetchAllPlants = () => {
 
     }
 
-    const deletePlantById = (id : string) => {
-        // request to server
-
-        // if request was successsful, then update plant here
-        setPlants((prevplants) => {
-            return prevplants.filter(plant => plant.id !== id);
-        })
-    } 
-
-    const getPlantbyId = (id: string) => {
-        return plants.find(plant => plant.id === id);
-    }
-
     const getDiffDays = (date: Date) => { // todo: gehört das hierher?
-        let pastDate : Date = new Date(date);
-        let currentDate : Date = new Date();
+        let pastDate: Date = new Date(date);
+        let currentDate: Date = new Date();
         let diffTime = currentDate.getTime() - pastDate.getTime();
         return Math.floor(diffTime / (1000 * 3600 * 24));
     }
 
+    const createPlant = (plant: Plant) => {
+        // create plant on backend side. If it worked, create plant from store using a callback function
+        plantService.create(
+            plant,
+            (createdPlant : Plant) => setPlants(currentPlants => currentPlants.concat([createdPlant]))
+        )
+    }
+
+    const getPlantbyId = (id: string) => {
+        // if required plant is already in store, get it directly
+        const plant = plants.find(plant => plant.id === id);
+        if (plant) return plant;
+        // if (plants.has(id)) return plants.get(id);
+
+        // else, use service to get the plant from the backend. If fetching worked error-free, store the retrieved plant using a callback function
+        // note: since store gets updated, everything will get rerendered (including components using this getPlantById function, which will then be able to retrieve the required plant)
+        plantService.get(
+            id,
+            (plant : Plant) => setPlants(currentPlants => currentPlants.concat([plant]))
+        );
+    }
+
+    const updatePlant = (plantDto: Plant) => {
+        // update plant on backend side. If it worked, update the store with the updated plant using a callback function
+        plantService.update(
+            plantDto,
+            (plantDto: Plant) => {
+                setPlants(currentPlants => currentPlants.map(plant => plant.id !== plantDto.id ? plant : plantDto));
+            }
+        );
+    }
+
+    const deletePlantById = (id: string) => {
+        // delete plant on backend side. If it worked, delete plant from store using a callback function
+        // TODO
+        // plantService.delete(
+        //     id,
+        //     (id: string) => setPlants((currentPlants) => {
+        //         currentPlants.slice()
+        //     })
+        // )
+    }
+
     return {
+        // plants : [...plants.values()],
         plants,
-        addPlant,
-        // plantsThatNeedToBeWatered,
+        createPlant,
         updatePlant,
         waterPlantById,
         fertilizePlantById,
