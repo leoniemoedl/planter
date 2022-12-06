@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { DateTimePickerAndroid, DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import CustomButton from './CustomButton';
 
@@ -13,7 +13,8 @@ export default function DateTimePicker(props: dateTimePickerProps) {
             value: test,
             onChange,
             mode: 'date',
-            is24Hour: true
+            is24Hour: true,
+            maximumDate: new Date()
         });
     }
 
