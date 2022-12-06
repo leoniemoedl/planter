@@ -30,7 +30,7 @@ export default class Plant {
     }
 
     needsToBeFertilazedIn(): number {
-        return getDiffDays(this.lastWatered);
+        return getDiffDays(this.lastFertilized);
     }
 
     water(): void {
