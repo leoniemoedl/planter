@@ -3,7 +3,7 @@ import { StyleSheet, View, TextInput, Button, Modal, Text } from 'react-native';
 import Plant from '../features/plant/classes/Plant';
 import usePlantsStore from '../features/plant/hooks/usePlantsStore';
 import CustomButton from './CustomButton';
-import { DateTimePickerAndroid, DateTimePickerEvent } from '@react-native-community/datetimepicker';
+import DateTimePicker from './DateTimePicker';
 
 interface PlantInputProps {
     visible: boolean;
@@ -31,25 +31,12 @@ export default function PlantInput(props: PlantInputProps) {
         setFertilizeCycle(parseInt(fertilizeCycle));
     };
 
-    const onChangeLastWateredDate = (event : DateTimePickerEvent, selectedDate? : Date) => { // todo: event typ
-        let currentDate = selectedDate;
-        if (!currentDate) return;
-        setLastWateredDate(currentDate);
+    const getDateLastWatered = (date: Date) => {
+        setLastWateredDate(date);
     }
 
-    const onChangeLastFertilizeDate = (event : DateTimePickerEvent, selectedDate? : Date) => { // todo: event typ
-        let currentDate = selectedDate;
-        if (!currentDate) return;
-        setLastFertilizedDate(currentDate);
-    }
-
-    const showLastWateredDatePicker = (option : string) => {
-        DateTimePickerAndroid.open({
-            value: lastWateredDate,
-            onChange: option === 'water' ? onChangeLastWateredDate : onChangeLastFertilizeDate, // todo: kann man das besser machen?
-            mode: 'date',
-            is24Hour: true
-        });
+    const getDateLastFertilized = (date: Date) => {
+        setLastFertilizedDate(date);
     }
 
     const addPlantHandler = () => {
@@ -96,7 +83,7 @@ export default function PlantInput(props: PlantInputProps) {
                     </View>
                     <View style={styles.inputContainer}>
                         <Text style={styles.tag}>Last watered:</Text>
-                        <CustomButton title='calendar' onPress={() => showLastWateredDatePicker('water')} />
+                        <DateTimePicker onShowDateTimePicker={getDateLastWatered} />
                     </View>
                     <View style={styles.inputContainer}>
                         <Text style={styles.tag}>Fertilizer rhythm:</Text>
@@ -110,7 +97,7 @@ export default function PlantInput(props: PlantInputProps) {
                     </View>
                     <View style={styles.inputContainer}>
                         <Text style={styles.tag}>Last fertilized:</Text>
-                        <CustomButton title='calendar' onPress={() => showLastWateredDatePicker('fertilizer')} />
+                        <DateTimePicker onShowDateTimePicker={getDateLastFertilized} />
                     </View>
                     <View style={styles.inputContainer}>
                         <Text style={styles.tag}>Notes:</Text>
