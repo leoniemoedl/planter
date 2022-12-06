@@ -16,8 +16,8 @@ export default class Plant {
     lastWatered: Date;
     lastFertilized: Date;
 
-    constructor(data: { id: string, name: string, waterCycle: number, fertilizeCycle: number, lastWatered: Date, lastFertilized: Date }) {
-        this.id = data.id;
+    constructor(data: { name: string, waterCycle: number, fertilizeCycle: number, lastWatered: Date, lastFertilized: Date }) {
+        this.id = Math.random().toString();
         this.name = data.name;
         this.waterCycle = data.waterCycle;
         this.fertilizeCycle = data.fertilizeCycle;

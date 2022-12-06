@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { StyleSheet, View, TextInput, Button, Modal, Text } from 'react-native';
+import { StyleSheet, View, TextInput, Button, Modal, Text, Alert } from 'react-native';
 import Plant from '../features/plant/classes/Plant';
 import usePlantsStore from '../features/plant/hooks/usePlantsStore';
 import CustomButton from './CustomButton';
@@ -40,8 +40,17 @@ export default function PlantInput(props: PlantInputProps) {
     }
 
     const addPlantHandler = () => {
+        if (enteredPlantName === '' || waterCycle === 0 || fertilizeCycle === 0) {
+            Alert.alert(
+                "We need some more information",
+                "You need to input values for the name of your plant, its water and fertilize cycle.",
+                [
+                  { text: "OK", onPress: () => {} }
+                ]
+            );
+            return;
+        }
         let plant : Plant = new Plant({
-            id : Math.random().toString(),
             name : enteredPlantName,
             waterCycle : waterCycle,
             fertilizeCycle : fertilizeCycle,
