@@ -39,8 +39,6 @@ export default function usePlantsStore() {
         const plant = cloneDeep(getPlantbyId(id) as Plant);
         plant.water();
 
-        // console.log(plant.lastWatered);
-
         updatePlant(plant);
     }
 
@@ -55,12 +53,12 @@ export default function usePlantsStore() {
 
     }
 
-    const getDiffDays = (date: Date) => { // todo: gehört das hierher?
-        let pastDate: Date = new Date(date);
-        let currentDate: Date = new Date();
-        let diffTime = currentDate.getTime() - pastDate.getTime();
-        return Math.floor(diffTime / (1000 * 3600 * 24));
-    }
+    // const getDiffDays = (date: Date) => { // todo: gehört das hierher?
+    //     let pastDate: Date = new Date(date);
+    //     let currentDate: Date = new Date();
+    //     let diffTime = currentDate.getTime() - pastDate.getTime();
+    //     return Math.floor(diffTime / (1000 * 3600 * 24));
+    // }
 
     const createPlant = (plant: Plant) => {
         // create plant on backend side. If it worked, create plant from store using a callback function
@@ -114,7 +112,7 @@ export default function usePlantsStore() {
         fertilizePlantById,
         deletePlantById,
         getPlantbyId,
-        getDiffDays
+        // getDiffDays
     }
 
 }

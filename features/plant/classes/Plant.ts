@@ -34,13 +34,11 @@ export default class Plant {
     }
 
     water(): void {
-        // TODO logic
-        this.lastWatered.setDate(this.lastWatered.getDate() + 10);
+        this.lastWatered = new Date(); // set to today
     }
 
     fertilize(): void {
-        // TODO logic
-        this.lastFertilized.setDate(this.lastFertilized.getDate() + 10);
+        this.lastFertilized = new Date(); // set to today
     }
 }
 

@@ -12,14 +12,6 @@ export default function PlantItem(props: PlantItemProps) {
 
     const { waterPlantById, fertilizePlantById } = usePlantsStore();
     const {plant} = usePlant(props.plantId);
-    // console.log(plant);
-    // console.log("FUCK");
-    // const plant = getPlantbyId(props.plantId);
-    // const {plant} = usePlant(props.plantId);
-
-    // const {getPlantbyId} = usePlantsStore();
-    // const plant = getPlantbyId(props.plantId);
-
 
     if (!plant) return <div></div>
 
@@ -31,15 +23,9 @@ export default function PlantItem(props: PlantItemProps) {
         fertilizePlantById(plant.id);
     }
 
-    const test = () => {
-        console.log("Halloooooo");
-        plant.needsToBeWateredIn();
-    }
-
     return (
         <Pressable>
             <View style={styles.plantItem} >
-                <CustomButton title='test' onPress={test} />
                 <Text>{plant.name}</Text>
                 <View style={styles.userInteraction} >
                     <View style={styles.col} >
