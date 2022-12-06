@@ -2,6 +2,12 @@
 
 const WATERING_THRESHOLD = 3;
 
+const getDiffDays = (date: Date) => { // TODO gehört das hierher? man braucht das eigentlich nur hier in der Pflanzen-Klasse und man kann nicht von außerhalb drauf zugreifen, weil es nicht exportiert wird
+    let currentDate: Date = new Date();
+    let diffTime = currentDate.getTime() - date.getTime();
+    return Math.floor(diffTime / (1000 * 3600 * 24));
+}
+
 export default class Plant {
     name: string;
     id: string;
@@ -20,19 +26,11 @@ export default class Plant {
     }
 
     needsToBeWateredIn(): number {
-        // let pastDate : Date = new Date(date);
-        // let currentDate : Date = new Date();
-        // let diffTime = currentDate.getTime() - pastDate.getTime();
-        // return Math.floor(diffTime / (1000 * 3600 * 24));
-        return this.lastWatered.getDate();
+        return getDiffDays(this.lastWatered);
     }
 
     needsToBeFertilazedIn(): number {
-        // let pastDate : Date = new Date(date);
-        // let currentDate : Date = new Date();
-        // let diffTime = currentDate.getTime() - pastDate.getTime();
-        // return Math.floor(diffTime / (1000 * 3600 * 24));
-        return this.lastWatered.getDate();
+        return getDiffDays(this.lastWatered);
     }
 
     water(): void {

@@ -12,8 +12,8 @@ export default function PlantItem(props: PlantItemProps) {
 
     const { waterPlantById, fertilizePlantById } = usePlantsStore();
     const {plant} = usePlant(props.plantId);
-    console.log(plant);
-    console.log("FUCK");
+    // console.log(plant);
+    // console.log("FUCK");
     // const plant = getPlantbyId(props.plantId);
     // const {plant} = usePlant(props.plantId);
 
@@ -31,13 +31,19 @@ export default function PlantItem(props: PlantItemProps) {
         fertilizePlantById(plant.id);
     }
 
+    const test = () => {
+        console.log("Halloooooo");
+        plant.needsToBeWateredIn();
+    }
+
     return (
         <Pressable>
             <View style={styles.plantItem} >
+                <CustomButton title='test' onPress={test} />
                 <Text>{plant.name}</Text>
                 <View style={styles.userInteraction} >
                     <View style={styles.col} >
-                        <Text>Neews water in {plant.needsToBeWateredIn()} days</Text>
+                        <Text>Needs water in {plant.needsToBeWateredIn()} days</Text>
                         <Text>Water rhythm: {plant.waterCycle} days</Text>
                         <CustomButton title='give water' onPress={waterHandler} />
                     </View>

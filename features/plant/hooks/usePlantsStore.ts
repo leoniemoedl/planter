@@ -39,7 +39,7 @@ export default function usePlantsStore() {
         const plant = cloneDeep(getPlantbyId(id) as Plant);
         plant.water();
 
-        console.log(plant.lastWatered);
+        // console.log(plant.lastWatered);
 
         updatePlant(plant);
     }

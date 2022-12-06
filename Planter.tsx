@@ -1,20 +1,15 @@
 import { useState } from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Platform, FlatList, Button } from 'react-native';
+import { StyleSheet, Text, View, Platform, FlatList } from 'react-native';
 import PlantItem from './components/PlantItem';
 import PlantInput from './components/PlantInput';
 import CustomButton from './components/CustomButton';
-// import { Plant } from './features/plant/types';
-import Plant from './features/plant/classes/Plant';
-import plantsState from './features/plant/atoms/PlantAtom';
-import { RecoilRoot, useRecoilValue } from 'recoil';
 import usePlantsStore from './features/plant/hooks/usePlantsStore';
 
 
 export default function Planter() {
   const [addPlantModalIsVisible, setAddPlantModalIsVisible] = useState(false);
 
-  const { plants, createPlant, updatePlant, deletePlantById } = usePlantsStore();
+  const { plants } = usePlantsStore();
 
   const openAddPlantModal = () => {
     setAddPlantModalIsVisible(true);
