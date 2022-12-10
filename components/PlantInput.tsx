@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { StyleSheet, View, TextInput, Button, Modal, Text, Alert } from 'react-native';
 import Plant from '../features/plant/classes/Plant';
+import { CreatePlantDto } from '../features/plant/dtos';
 import usePlantsStore from '../features/plant/hooks/usePlantsStore';
 import CustomButton from './CustomButton';
 import DateTimePicker from './DateTimePicker';
@@ -50,14 +51,14 @@ export default function PlantInput(props: PlantInputProps) {
             );
             return;
         }
-        let plant : Plant = new Plant({
+        const createPlantDto : CreatePlantDto = {
             name : enteredPlantName,
             waterCycle : waterCycle,
             fertilizeCycle : fertilizeCycle,
             lastWatered : lastWateredDate,
-            lastFertilized: new Date()
-        });
-        createPlant(plant);
+            lastFertilized: lastFertilizedDate,
+        }
+        createPlant(createPlantDto);
         props.onClose();
     }
 

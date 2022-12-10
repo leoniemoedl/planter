@@ -2,6 +2,7 @@ import { cloneDeep } from "lodash";
 import { useRecoilState } from "recoil";
 import plantsState from "../atoms/PlantAtom";
 import Plant from "../classes/Plant";
+import { CreatePlantDto } from "../dtos";
 import plantService from "../services";
 
 
@@ -60,11 +61,11 @@ export default function usePlantsStore() {
     //     return Math.floor(diffTime / (1000 * 3600 * 24));
     // }
 
-    const createPlant = (plant: Plant) => {
+    const createPlant = (createPlantDto: CreatePlantDto) => {
         // create plant on backend side. If it worked, create plant from store using a callback function
         plantService.create(
-            plant,
-            (createdPlant : Plant) => setPlants(currentPlants => currentPlants.concat([createdPlant]))
+            createPlantDto,
+            (createdPlant: Plant) => setPlants(currentPlants => currentPlants.concat([createdPlant]))
         )
     }
 
@@ -78,7 +79,7 @@ export default function usePlantsStore() {
         // note: since store gets updated, everything will get rerendered (including components using this getPlantById function, which will then be able to retrieve the required plant)
         plantService.get(
             id,
-            (plant : Plant) => setPlants(currentPlants => currentPlants.concat([plant]))
+            (plant: Plant) => setPlants(currentPlants => currentPlants.concat([plant]))
         );
     }
 
@@ -93,14 +94,10 @@ export default function usePlantsStore() {
     }
 
     const deletePlantById = (id: string) => {
-        // delete plant on backend side. If it worked, delete plant from store using a callback function
-        // TODO
-        // plantService.delete(
-        //     id,
-        //     (id: string) => setPlants((currentPlants) => {
-        //         currentPlants.slice()
-        //     })
-        // )
+        plantService.delete(
+            id,
+            (id: string) => setPlants((currentPlants) => currentPlants.filter(plant => plant.id !== id))
+        );
     }
 
     return {
