@@ -1,5 +1,6 @@
 import { cloneDeep } from "lodash";
 import { useRecoilState } from "recoil";
+import useLoading from "../../common/hooks/useLoading";
 import plantsState from "../atoms/PlantAtom";
 import Plant from "../classes/Plant";
 import { CreatePlantDto } from "../dtos";
@@ -35,6 +36,7 @@ import plantService from "../services";
 export default function usePlantsStore() {
 
     const [plants, setPlants] = useRecoilState(plantsState);
+    const { loading, startLoading, stopLoading } = useLoading();
 
     const waterPlantById = (id: string) => {
         const plant = cloneDeep(getPlantbyId(id) as Plant);
@@ -62,11 +64,12 @@ export default function usePlantsStore() {
     // }
 
     const createPlant = (createPlantDto: CreatePlantDto) => {
+        startLoading();
         // create plant on backend side. If it worked, create plant from store using a callback function
         plantService.create(
             createPlantDto,
             (createdPlant: Plant) => setPlants(currentPlants => currentPlants.concat([createdPlant]))
-        )
+        ).finally(() => stopLoading())
     }
 
     const getPlantbyId = (id: string) => {
@@ -77,27 +80,30 @@ export default function usePlantsStore() {
 
         // else, use service to get the plant from the backend. If fetching worked error-free, store the retrieved plant using a callback function
         // note: since store gets updated, everything will get rerendered (including components using this getPlantById function, which will then be able to retrieve the required plant)
+        startLoading();
         plantService.get(
             id,
             (plant: Plant) => setPlants(currentPlants => currentPlants.concat([plant]))
-        );
+        ).finally(() => stopLoading());
     }
 
     const updatePlant = (plantDto: Plant) => {
         // update plant on backend side. If it worked, update the store with the updated plant using a callback function
+        startLoading();
         plantService.update(
             plantDto,
             (plantDto: Plant) => {
                 setPlants(currentPlants => currentPlants.map(plant => plant.id !== plantDto.id ? plant : plantDto));
             }
-        );
+        ).finally(() => stopLoading());
     }
 
     const deletePlantById = (id: string) => {
+        startLoading();
         plantService.delete(
             id,
             (id: string) => setPlants((currentPlants) => currentPlants.filter(plant => plant.id !== id))
-        );
+        ).finally(() => stopLoading());
     }
 
     return {
@@ -109,6 +115,7 @@ export default function usePlantsStore() {
         fertilizePlantById,
         deletePlantById,
         getPlantbyId,
+        loading
         // getDiffDays
     }
 
