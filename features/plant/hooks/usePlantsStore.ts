@@ -1,5 +1,6 @@
 import { cloneDeep } from "lodash";
 import { useRecoilState } from "recoil";
+import useError from "../../common/hooks/useError";
 import useLoading from "../../common/hooks/useLoading";
 import plantsState from "../atoms/PlantAtom";
 import Plant from "../classes/Plant";
@@ -37,6 +38,7 @@ export default function usePlantsStore() {
 
     const [plants, setPlants] = useRecoilState(plantsState);
     const { loading, startLoading, stopLoading } = useLoading();
+    const { isError, turnOnError, turnOfError } = useError();
 
     const waterPlantById = (id: string) => {
         const plant = cloneDeep(getPlantbyId(id) as Plant);
@@ -69,7 +71,9 @@ export default function usePlantsStore() {
         plantService.create(
             createPlantDto,
             (createdPlant: Plant) => setPlants(currentPlants => currentPlants.concat([createdPlant]))
-        ).finally(() => stopLoading())
+        )
+            .catch((e) => turnOnError())
+            .finally(() => stopLoading())
     }
 
     const getPlantbyId = (id: string) => {
@@ -84,7 +88,9 @@ export default function usePlantsStore() {
         plantService.get(
             id,
             (plant: Plant) => setPlants(currentPlants => currentPlants.concat([plant]))
-        ).finally(() => stopLoading());
+        )
+            .catch((e) => turnOnError())
+            .finally(() => stopLoading());
     }
 
     const updatePlant = (plantDto: Plant) => {
@@ -95,7 +101,9 @@ export default function usePlantsStore() {
             (plantDto: Plant) => {
                 setPlants(currentPlants => currentPlants.map(plant => plant.id !== plantDto.id ? plant : plantDto));
             }
-        ).finally(() => stopLoading());
+        )
+            .catch((e) => turnOnError())
+            .finally(() => stopLoading());
     }
 
     const deletePlantById = (id: string) => {
@@ -103,11 +111,12 @@ export default function usePlantsStore() {
         plantService.delete(
             id,
             (id: string) => setPlants((currentPlants) => currentPlants.filter(plant => plant.id !== id))
-        ).finally(() => stopLoading());
+        )
+            .catch((e) => turnOnError())
+            .finally(() => stopLoading());
     }
 
     return {
-        // plants : [...plants.values()],
         plants,
         createPlant,
         updatePlant,
@@ -115,8 +124,9 @@ export default function usePlantsStore() {
         fertilizePlantById,
         deletePlantById,
         getPlantbyId,
-        loading
-        // getDiffDays
+        loading,
+        isError,
+        turnOfError,
     }
 
 }
