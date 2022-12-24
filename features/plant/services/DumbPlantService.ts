@@ -4,12 +4,18 @@ import { CreatePlantDto, PlantDto } from "../dtos";
 
 // i know Plant,Plant looks weird, it's just for preparing other necessary types (such as CreatePlantDto)
 export default class DumbPlantService extends Service<CreatePlantDto, Plant> {
+    loadingIds: Map<string, boolean>;
 
-    create(createPlantDto: CreatePlantDto, callback?: ((r: Plant) => void) | undefined): Promise<Plant> {
+    constructor() {
+        super();
+        this.loadingIds = new Map();
+    }
+
+    async create(createPlantDto: CreatePlantDto, callback: ((createdPlant: Plant) => void) | undefined) {
         const id = Date.UTC.toString();
-        
+
         // created plant dto basically represents the response
-        const createdPlantDto : PlantDto = {
+        const createdPlantDto: PlantDto = {
             id: id,
             ...createPlantDto,
             createdAt: new Date(),
@@ -17,24 +23,25 @@ export default class DumbPlantService extends Service<CreatePlantDto, Plant> {
         };
 
         // convert it to plant
-        const createdPlant = new Plant({...createdPlantDto});
+        const createdPlant = new Plant({ ...createdPlantDto });
         if (callback) callback(createdPlant);
-        // TODO check if we need return values or if we just use the callback to handle store update
-        return new Promise(() => createdPlant);
     }
 
-    get(id: string, callback?: ((r: Plant) => void) | undefined): Promise<Plant> {
+    async get(id: string, callback: ((plant: Plant) => void) | undefined) {
+        // only do fetch request if no one else is already requesting it
+        if (this.loadingIds.has(id)) return;
+        this.loadingIds.set(id, true);
+        // TODO fetch data
+        this.loadingIds.delete(id);
         throw new Error("Method not implemented.");
     }
 
-    update(updatedEntity: Plant, callback?: ((r: Plant) => void) | undefined): Promise<void> {
+    async update(updatedEntity: Plant, callback: ((plant: Plant) => void) | undefined) {
         if (callback) callback(updatedEntity);
-        return new Promise(() => { });
     }
 
-    delete(id: string, callback?: ((id: string) => void) | undefined): Promise<void> {
-        if (callback) callback(id);
-        return new Promise(() => { });
+    async delete(id: string, callback: (() => void) | undefined) {
+        if (callback) callback();
     }
 }
 

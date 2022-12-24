@@ -7,33 +7,6 @@ import Plant from "../classes/Plant";
 import { CreatePlantDto } from "../dtos";
 import plantService from "../services";
 
-
-// Inge will folgendes noch anschauen 
-
-// Not working
-// export function getPlantsThatNeedToBeWatered1(obj : any) {
-//     const [plants, setPlants] = useRecoilState(plantsState);
-//     setPlants(obj);
-// }
-
-// Not working
-// export const getPlantsThatNeedToBeWatered3 = () => {
-//     const plants = useRecoilValue(plantsState);
-//     return plants.filter(plant => plant.age < 5);
-// }
-
-// possible but not sure if that is good
-// export const getPlantsThatNeedToBeWatered2 = (plants : any[]) => {
-//     return plants.filter(plant => plant.age < 5);
-// }
-
-// not working
-// export const getPlantsThatNeedToBeWatered4 = () => {
-//     const plants = useRecoilValue(plantsState);
-//     return plants.filter(plant => plant.age < 5);
-// }
-
-
 export default function usePlantsStore() {
 
     const [plants, setPlants] = useRecoilState(plantsState);
@@ -57,13 +30,6 @@ export default function usePlantsStore() {
     const fetchAllPlants = () => {
 
     }
-
-    // const getDiffDays = (date: Date) => { // todo: gehört das hierher?
-    //     let pastDate: Date = new Date(date);
-    //     let currentDate: Date = new Date();
-    //     let diffTime = currentDate.getTime() - pastDate.getTime();
-    //     return Math.floor(diffTime / (1000 * 3600 * 24));
-    // }
 
     const createPlant = (createPlantDto: CreatePlantDto) => {
         startLoading();
@@ -110,7 +76,7 @@ export default function usePlantsStore() {
         startLoading();
         plantService.delete(
             id,
-            (id: string) => setPlants((currentPlants) => currentPlants.filter(plant => plant.id !== id))
+            () => setPlants((currentPlants) => currentPlants.filter(plant => plant.id !== id))
         )
             .catch((e) => turnOnError())
             .finally(() => stopLoading());
