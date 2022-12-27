@@ -1,7 +1,7 @@
-export default abstract class Service<CreateDTO, DTO> {
+export default abstract class Service<CreateDTO, Entity> {
     abstract loadingIds : Map<string, boolean>;
-    abstract create(entity: CreateDTO, callback?: (r: DTO) => void) : Promise<void>;
-    abstract get(id : string, callback?: (r: DTO) => void) : Promise<void>;
-    abstract update(updatedEntity: DTO, callback?: (r: DTO) => void): Promise<void>;
+    abstract create(entity: CreateDTO, callback?: (r: Entity) => void) : Promise<void>;
+    abstract get(id : string, callback?: (r: Entity) => void) : Promise<void>;
+    abstract update(updatedEntity: Entity, callback?: (r: Entity) => void): Promise<void>;
     abstract delete(id: string, callback?: () => void): Promise<void>;
 }

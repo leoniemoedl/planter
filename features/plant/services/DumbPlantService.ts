@@ -1,9 +1,9 @@
-import Service from "../../common/services/Service";
 import Plant from "../classes/Plant";
 import { CreatePlantDto, PlantDto } from "../dtos";
+import PlantService from "./PlantService";
 
 // i know Plant,Plant looks weird, it's just for preparing other necessary types (such as CreatePlantDto)
-export default class DumbPlantService extends Service<CreatePlantDto, Plant> {
+export default class DumbPlantService extends PlantService {
     loadingIds: Map<string, boolean>;
 
     constructor() {
@@ -42,6 +42,10 @@ export default class DumbPlantService extends Service<CreatePlantDto, Plant> {
 
     async delete(id: string, callback: (() => void) | undefined) {
         if (callback) callback();
+    }
+
+    async fetchAllPlants(callback?: ((plants: Plant[]) => void)) {
+        return;
     }
 }
 
