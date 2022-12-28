@@ -60,7 +60,7 @@ export default function usePlantsStore() {
     }
 
     const updatePlant = (updatedPlant: Plant) => {
-        const updatedPlantDto = updatedPlant as PlantDto;
+        const updatedPlantDto = PlantDto.fromPlant(updatedPlant);
         
         // update plant on backend side. If it worked, update the store with the updated plant using a callback function
         startLoading();

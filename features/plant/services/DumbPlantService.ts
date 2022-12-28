@@ -23,7 +23,7 @@ export default class DumbPlantService extends PlantService {
         };
 
         // convert it to plant
-        const createdPlant = new Plant({ ...createdPlantDto });
+        const createdPlant = PlantDto.toPlant(createdPlantDto);
         if (callback) callback(createdPlant);
     }
 
@@ -36,7 +36,7 @@ export default class DumbPlantService extends PlantService {
         throw new Error("Method not implemented.");
     }
 
-    async update(updatedEntity: PlantDto, callback: (() => void) | undefined) {
+    async update(updatedPlant: PlantDto, callback: (() => void) | undefined) {
         if (callback) callback();
     }
 
