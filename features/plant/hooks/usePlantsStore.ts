@@ -4,7 +4,7 @@ import useError from "../../common/hooks/useError";
 import useLoading from "../../common/hooks/useLoading";
 import plantsState from "../atoms/PlantAtom";
 import Plant from "../classes/Plant";
-import { CreatePlantDto } from "../dtos";
+import { CreatePlantDto, PlantDto } from "../dtos";
 import plantService from "../services";
 
 export default function usePlantsStore() {
@@ -59,13 +59,15 @@ export default function usePlantsStore() {
             .finally(() => stopLoading());
     }
 
-    const updatePlant = (plantDto: Plant) => {
+    const updatePlant = (updatedPlant: Plant) => {
+        const updatedPlantDto = updatedPlant as PlantDto;
+        
         // update plant on backend side. If it worked, update the store with the updated plant using a callback function
         startLoading();
         plantService.update(
-            plantDto,
-            (plantDto: Plant) => {
-                setPlants(currentPlants => currentPlants.map(plant => plant.id !== plantDto.id ? plant : plantDto));
+            updatedPlantDto,
+            () => {
+                setPlants(currentPlants => currentPlants.map(_plant => _plant.id !== updatedPlant.id ? _plant : updatedPlant));
             }
         )
             .catch((e) => turnOnError())

@@ -12,7 +12,7 @@ export default class DumbPlantService extends PlantService {
     }
 
     async create(createPlantDto: CreatePlantDto, callback: ((createdPlant: Plant) => void) | undefined) {
-        const id = Date.UTC.toString();
+        const id = Date.now.toString();
 
         // created plant dto basically represents the response
         const createdPlantDto: PlantDto = {
@@ -36,8 +36,8 @@ export default class DumbPlantService extends PlantService {
         throw new Error("Method not implemented.");
     }
 
-    async update(updatedEntity: Plant, callback: ((plant: Plant) => void) | undefined) {
-        if (callback) callback(updatedEntity);
+    async update(updatedEntity: PlantDto, callback: (() => void) | undefined) {
+        if (callback) callback();
     }
 
     async delete(id: string, callback: (() => void) | undefined) {

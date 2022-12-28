@@ -20,7 +20,7 @@ export default class Plant extends Entity implements PlantDto {
 
     constructor(data: PlantDto) {
         super(data.createdAt, data.updatedAt);
-        this.id = Math.random().toString();
+        this.id = data.id;
         this.name = data.name;
         this.waterCycle = data.waterCycle;
         this.fertilizeCycle = data.fertilizeCycle;
