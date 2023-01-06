@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { StyleSheet, View, Text, Pressable, Image, ImageBackground } from 'react-native';
-import usePlant from '../features/plant/hooks/usePlant';
-import usePlantsStore from '../features/plant/hooks/usePlantsStore';
+import usePlant from '../hooks/usePlant';
+import usePlantsStore from '../hooks/usePlantsStore';
 import CustomButton from './CustomButton';
 
 interface PlantItemProps {
@@ -26,7 +26,8 @@ export default function PlantItem(props: PlantItemProps) {
     return (
         <Pressable>
             <View style={styles.plantItem} >
-                <Image style={styles.img} source={require('../assets/plant-images/pilea.jpg')} />
+                {/* TODO check how to solve this with absolute path */}
+                <Image style={styles.img} source={require('../../../assets/plant-images/pilea.jpg')} />
                 <View style={styles.info}>
                     <Text style={styles.title}>{plant.name}</Text>
                     <View style={styles.container}>

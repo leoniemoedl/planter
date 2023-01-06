@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { StyleSheet, View, TextInput, Button, Modal, Text, Alert } from 'react-native';
-import Plant from '../features/plant/classes/Plant';
-import { CreatePlantDto } from '../features/plant/dtos';
-import usePlantsStore from '../features/plant/hooks/usePlantsStore';
+import Plant from '../classes/Plant';
+import { CreatePlantDto } from '../dtos';
+import usePlantsStore from '../hooks/usePlantsStore';
 import CustomButton from './CustomButton';
 import DateTimePicker from './DateTimePicker';
 

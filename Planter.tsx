@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { StyleSheet, Text, View, Platform, FlatList } from 'react-native';
-import PlantItem from './components/PlantItem';
-import PlantInput from './components/PlantInput';
-import CustomButton from './components/CustomButton';
+import PlantItem from './features/plant/components/PlantItem';
+import PlantInput from './features/plant/components/PlantInput';
+import CustomButton from './features/plant/components/CustomButton';
 import usePlantsStore from './features/plant/hooks/usePlantsStore';
 
 
