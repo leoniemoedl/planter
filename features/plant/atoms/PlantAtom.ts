@@ -11,7 +11,8 @@ const plantsState = atom({
         lastWatered: new Date(),
         lastFertilized: new Date(),
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
+        image: '',
     }),
     new Plant({
         id: '1',
@@ -21,7 +22,8 @@ const plantsState = atom({
         lastWatered: new Date(),
         lastFertilized: new Date(),
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
+        image: '',
     }),
     new Plant({
         id: '2',
@@ -31,7 +33,8 @@ const plantsState = atom({
         lastWatered: new Date(),
         lastFertilized: new Date(),
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
+        image: '',
     })]
     // TODO I DONT KNOW WHY REACTIVITY IS NOT WORKING WITH MAP >.< , figure it out
 });
