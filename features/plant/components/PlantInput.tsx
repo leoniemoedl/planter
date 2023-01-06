@@ -57,6 +57,7 @@ export default function PlantInput(props: PlantInputProps) {
             fertilizeCycle : fertilizeCycle,
             lastWatered : lastWateredDate,
             lastFertilized: lastFertilizedDate,
+            image: '',
         }
         createPlant(createPlantDto);
         props.onClose();

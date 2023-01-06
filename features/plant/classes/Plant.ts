@@ -17,6 +17,7 @@ export default class Plant extends Entity implements PlantDto {
     fertilizeCycle: number;
     lastWatered: Date;
     lastFertilized: Date;
+    image: string;
 
     constructor(data: PlantDto) {
         super(data.createdAt, data.updatedAt);
@@ -26,6 +27,7 @@ export default class Plant extends Entity implements PlantDto {
         this.fertilizeCycle = data.fertilizeCycle;
         this.lastWatered = data.lastWatered;
         this.lastFertilized = data.lastFertilized;
+        this.image = data.image;
     }
 
     needsToBeWateredIn(): number {
