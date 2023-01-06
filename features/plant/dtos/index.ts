@@ -8,6 +8,7 @@ export class PlantDto extends Entity {
     fertilizeCycle: number;
     lastWatered: Date;
     lastFertilized: Date;
+    image: string;
 
     static fromPlant(plant : Plant) {
         return plant as PlantDto;
@@ -24,4 +25,5 @@ export class CreatePlantDto {
     fertilizeCycle: number;
     lastWatered: Date;
     lastFertilized: Date;
+    image: string;
 }
