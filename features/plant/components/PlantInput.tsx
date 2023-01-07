@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { StyleSheet, View, TextInput, Button, Modal, Text, Alert } from 'react-native';
+import CamerPicker from '../../common/components/CameraPicker';
 import Plant from '../classes/Plant';
 import { CreatePlantDto } from '../dtos';
 import usePlantsStore from '../hooks/usePlantsStore';
@@ -14,6 +15,9 @@ interface PlantInputProps {
 export default function PlantInput(props: PlantInputProps) {
     const { createPlant } = usePlantsStore();
 
+    const [cameraActive, setCameraActive] = useState(false);
+
+    const [image, setImage] = useState('');
     const [enteredPlantName, setEnteredPlantName] = useState('');
     const [waterCycle, setWaterCycle] = useState(0);
     const [fertilizeCycle, setFertilizeCycle] = useState(0);
@@ -57,11 +61,16 @@ export default function PlantInput(props: PlantInputProps) {
             fertilizeCycle : fertilizeCycle,
             lastWatered : lastWateredDate,
             lastFertilized: lastFertilizedDate,
-            image: '',
+            image: image,
         }
         createPlant(createPlantDto);
         props.onClose();
     }
+
+    const takeImage = () => {
+        setCameraActive(true);
+    }
+    
 
     return (
         <Modal visible={props.visible} animationType='slide' >
@@ -70,8 +79,14 @@ export default function PlantInput(props: PlantInputProps) {
                     <Text>Give some information about the plant:</Text>
                 </View>
                 <View style={styles.content}>
-                    <View style={styles.image} >
-                        <Text>Placeholder</Text>
+                    <View style={styles.image}>
+                        {!cameraActive ?
+                        <CustomButton title='take image' onPress={takeImage}/>
+                        :
+                        <CamerPicker 
+                            onTakePhoto={ setImage }
+                            onClose={() => { setCameraActive(false) }}/>
+                        }
                     </View>
                     <View style={styles.inputContainer}>
                         <Text style={styles.tag}>Name:</Text>
@@ -139,7 +154,6 @@ export default function PlantInput(props: PlantInputProps) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'space-between',
         padding: 20,
         backgroundColor: '#313552',
     },
@@ -152,7 +166,10 @@ const styles = StyleSheet.create({
     image: {
         backgroundColor: '#EEE6CE',
         width: '100%',
-        height: 200
+        height: 300,
+        justifyContent: 'center',
+        alignItems: 'center'
+
     },
     textInput: {
         height: 35,
