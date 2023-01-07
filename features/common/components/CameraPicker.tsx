@@ -23,10 +23,11 @@ export default function CamerPicker(props: CameraPickerProps) {
 
     const takePhoto = async () => {
         const picture = await cameraRef?.takePictureAsync({ base64: true });
-        console.log('..................................');
-        console.log(picture?.uri);
+        // console.log('..................................');
+        // console.log(picture?.uri);
         if (picture?.base64) {
             props.onTakePhoto(picture.base64);
+            props.onClose();
         }
     }
 
