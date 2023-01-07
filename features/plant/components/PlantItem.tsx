@@ -27,7 +27,6 @@ export default function PlantItem(props: PlantItemProps) {
     return (
         <Pressable>
             <View style={styles.plantItem} >
-                {/* TODO check how to solve this with absolute path */}
                 {plant.image === undefined ?
                 <View style={styles.imgEmpty}>
                     <Icon
