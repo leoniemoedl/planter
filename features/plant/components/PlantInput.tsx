@@ -1,5 +1,7 @@
+import { Image } from '@rneui/base';
+import { Icon } from '@rneui/themed';
 import { useState } from 'react';
-import { StyleSheet, View, TextInput, Button, Modal, Text, Alert } from 'react-native';
+import { StyleSheet, View, TextInput, Button, Modal, Text, Alert, TouchableOpacity } from 'react-native';
 import CamerPicker from '../../common/components/CameraPicker';
 import Plant from '../classes/Plant';
 import { CreatePlantDto } from '../dtos';
@@ -17,7 +19,7 @@ export default function PlantInput(props: PlantInputProps) {
 
     const [cameraActive, setCameraActive] = useState(false);
 
-    const [image, setImage] = useState('');
+    const [imageBase64, setImageBase64] = useState('');
     const [enteredPlantName, setEnteredPlantName] = useState('');
     const [waterCycle, setWaterCycle] = useState(0);
     const [fertilizeCycle, setFertilizeCycle] = useState(0);
@@ -61,7 +63,7 @@ export default function PlantInput(props: PlantInputProps) {
             fertilizeCycle : fertilizeCycle,
             lastWatered : lastWateredDate,
             lastFertilized: lastFertilizedDate,
-            image: image,
+            image: imageBase64,
         }
         createPlant(createPlantDto);
         props.onClose();
@@ -69,6 +71,12 @@ export default function PlantInput(props: PlantInputProps) {
 
     const takeImage = () => {
         setCameraActive(true);
+    }
+
+    const test = () => {
+        console.log('yolo');
+        console.log('imageBase64 === "" : ' , imageBase64 === '');
+        console.log('cameraActive === ' + cameraActive);
     }
     
 
@@ -79,15 +87,38 @@ export default function PlantInput(props: PlantInputProps) {
                     <Text>Give some information about the plant:</Text>
                 </View>
                 <View style={styles.content}>
-                    <View style={styles.image}>
-                        {!cameraActive ?
-                        <CustomButton title='take image' onPress={takeImage}/>
+                    {/* <View style={styles.image}> */}
+                        {(imageBase64 === '') ?
+                            (!cameraActive) ?
+                            <View style={{ ...styles.image, backgroundColor: '#EEE6CE'}} >
+                                <CustomButton title='take image' onPress={takeImage}/>
+                            </View>
+                            :
+                            <View style={styles.image}>
+                                <CamerPicker 
+                                        onTakePhoto={ setImageBase64 }
+                                        onClose={() => { setCameraActive(false); }}/>
+                            </View>
                         :
-                        <CamerPicker 
-                            onTakePhoto={ setImage }
-                            onClose={() => { setCameraActive(false) }}/>
+                            (!cameraActive) ?
+                            <View>
+                                <Image style={styles.image} source={{uri: 'data:image/jpg;base64,' + imageBase64}} />
+                                <TouchableOpacity onPress={takeImage} style={styles.btn}>
+                                    <Icon
+                                        name={'camera'}
+                                        type='font-awesome'
+                                        color={'#ffffff'}
+                                        size={20}
+                                        />
+                                </TouchableOpacity>
+                            </View>
+                            :
+                            <View style={styles.image}>
+                                <CamerPicker 
+                                        onTakePhoto={ setImageBase64 }
+                                        onClose={() => { setCameraActive(false); }}/>
+                            </View>
                         }
-                    </View>
                     <View style={styles.inputContainer}>
                         <Text style={styles.tag}>Name:</Text>
                         <TextInput
@@ -147,6 +178,7 @@ export default function PlantInput(props: PlantInputProps) {
                     />
                 </View>
             </View>
+            <CustomButton title='test' onPress={test} />
         </Modal>
     );
 }
@@ -164,12 +196,19 @@ const styles = StyleSheet.create({
         
     },
     image: {
-        backgroundColor: '#EEE6CE',
         width: '100%',
         height: 300,
         justifyContent: 'center',
         alignItems: 'center'
-
+    },
+    btn: {
+        backgroundColor: '#cccccc',
+        opacity: 0.5,
+        padding: 15,
+        borderRadius: 50,
+        position: 'absolute',
+        alignSelf: 'center',
+        top: '40%' // TODO: calculate true vertical center
     },
     textInput: {
         height: 35,
