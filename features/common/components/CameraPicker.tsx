@@ -2,6 +2,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import { Camera, CameraType } from 'expo-camera';
 import { useEffect, useState } from "react";
 import CustomButton from "../../plant/components/CustomButton";
+import { Icon } from "@rneui/themed";
 
 interface CameraPickerProps {
     onTakePhoto: (imgBase64: string) => void;
@@ -48,9 +49,30 @@ export default function CamerPicker(props: CameraPickerProps) {
             setCameraRef(ref);
         }}>
             <View style={styles.btnContainer}>
-                <CustomButton title={'cancel'} onPress={cancel} />
-                <CustomButton title={'take image'} onPress={takePhoto} />
-                <CustomButton title={'flip camera'} onPress={flipCamera} />
+                <TouchableOpacity onPress={cancel} style={styles.btn}>
+                    <Icon
+                        name={'times'}
+                        type='font-awesome'
+                        color={'#ffffff'}
+                        size={20}
+                        />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={takePhoto} style={styles.btn}>
+                    <Icon
+                        name={'camera'}
+                        type='font-awesome'
+                        color={'#ffffff'}
+                        size={20}
+                        />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={flipCamera} style={styles.btn}>
+                    <Icon
+                        name={'refresh'}
+                        type='font-awesome'
+                        color={'#ffffff'}
+                        size={20}
+                        />
+                </TouchableOpacity>
             </View>
         </Camera>
     )
@@ -66,6 +88,10 @@ const styles = StyleSheet.create({
     btnContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between'
-        
+    },
+    btn: {
+        backgroundColor: '#B8405E',
+        padding: 15,
+        borderRadius: 50
     }
 });
