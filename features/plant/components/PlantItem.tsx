@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { StyleSheet, View, Text, Pressable, Image, ImageBackground } from 'react-native';
+import { StyleSheet, View, Text, Pressable, Image, ImageBackground, GestureResponderEvent } from 'react-native';
 import usePlant from '../hooks/usePlant';
 import usePlantsStore from '../hooks/usePlantsStore';
 import CustomButton from './CustomButton';
+import PlantInfo from './PlantInfo';
 
 interface PlantItemProps {
     plantId: string;
@@ -11,9 +12,10 @@ interface PlantItemProps {
 export default function PlantItem(props: PlantItemProps) {
 
     const { waterPlantById, fertilizePlantById } = usePlantsStore();
-    const {plant} = usePlant(props.plantId);
+    const { plant } = usePlant(props.plantId);
+    const [plantInfoIsVisible, setPlantInfoIsVisible] = useState(false);
 
-    if (!plant) return <div></div>
+    if (!plant) return <View />
 
     const waterHandler = () => {
         waterPlantById(plant.id);
@@ -23,28 +25,43 @@ export default function PlantItem(props: PlantItemProps) {
         fertilizePlantById(plant.id);
     }
 
+    const openPlantInfoModal = () => {
+        setPlantInfoIsVisible(true);
+    }
+    
+    const closePlantInfoModal = () => {
+        setPlantInfoIsVisible(false);
+    }
+
     return (
-        <Pressable>
-            <View style={styles.plantItem} >
-                {/* TODO check how to solve this with absolute path */}
-                <Image style={styles.img} source={require('../../../assets/plant-images/pilea.jpg')} />
-                <View style={styles.info}>
-                    <Text style={styles.title}>{plant.name}</Text>
-                    <View style={styles.container}>
-                        <View style={styles.actionContainer}> 
-                            <Text>Needs water in {plant.needsToBeWateredIn()} days</Text>
-                            <Text>Water rhythm: {plant.waterCycle} days</Text>
-                            <CustomButton title='give water' onPress={waterHandler} />
-                        </View>
-                        <View style={styles.actionContainer}> 
-                            <Text>Needs fertilizer in {plant.needsToBeFertilazedIn()} days</Text>
-                            <Text>Fertilizer rhythm: {plant.fertilizeCycle} days</Text>
-                            <CustomButton title='fertilize' onPress={fertilizeHandler} />
+        <View>
+            <Pressable onPress={openPlantInfoModal}>
+                <View style={styles.plantItem} >
+                    {/* TODO check how to solve this with absolute path */}
+                    <Image style={styles.img} source={require('../../../assets/plant-images/pilea.jpg')} />
+                    <View style={styles.info}>
+                        <Text style={styles.title}>{plant.name}</Text>
+                        <View style={styles.container}>
+                            <View style={styles.actionContainer}>
+                                <Text>Needs water in {plant.needsToBeWateredIn()} days</Text>
+                                <Text>Water rhythm: {plant.waterCycle} days</Text>
+                                <CustomButton title='give water' onPress={waterHandler} />
+                            </View>
+                            <View style={styles.actionContainer}>
+                                <Text>Needs fertilizer in {plant.needsToBeFertilazedIn()} days</Text>
+                                <Text>Fertilizer rhythm: {plant.fertilizeCycle} days</Text>
+                                <CustomButton title='fertilize' onPress={fertilizeHandler} />
+                            </View>
                         </View>
                     </View>
                 </View>
-            </View>
-        </Pressable>
+            </Pressable>
+            <PlantInfo
+                plantId={plant.id}
+                visible={plantInfoIsVisible}
+                onClose={closePlantInfoModal}
+            />
+        </View>
     );
 }
 
