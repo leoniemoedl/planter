@@ -17,9 +17,7 @@ interface PlantInputProps {
 export default function PlantInput(props: PlantInputProps) {
     const { createPlant } = usePlantsStore();
 
-    const [cameraActive, setCameraActive] = useState(false);
-
-    const [imageBase64, setImageBase64] = useState('');
+    const [image, setImage] = useState('');
     const [enteredPlantName, setEnteredPlantName] = useState('');
     const [waterCycle, setWaterCycle] = useState(0);
     const [fertilizeCycle, setFertilizeCycle] = useState(0);
@@ -63,22 +61,11 @@ export default function PlantInput(props: PlantInputProps) {
             fertilizeCycle : fertilizeCycle,
             lastWatered : lastWateredDate,
             lastFertilized: lastFertilizedDate,
-            image: imageBase64,
+            image: image,
         }
         createPlant(createPlantDto);
         props.onClose();
-    }
-
-    const takeImage = () => {
-        setCameraActive(true);
-    }
-
-    const test = () => {
-        console.log('yolo');
-        console.log('imageBase64 === "" : ' , imageBase64 === '');
-        console.log('cameraActive === ' + cameraActive);
-    }
-    
+    }  
 
     return (
         <Modal visible={props.visible} animationType='slide' >
@@ -87,38 +74,7 @@ export default function PlantInput(props: PlantInputProps) {
                     <Text>Give some information about the plant:</Text>
                 </View>
                 <View style={styles.content}>
-                    {/* <View style={styles.image}> */}
-                        {(imageBase64 === '') ?
-                            (!cameraActive) ?
-                            <View style={{ ...styles.image, backgroundColor: '#EEE6CE'}} >
-                                <CustomButton title='take image' onPress={takeImage}/>
-                            </View>
-                            :
-                            <View style={styles.image}>
-                                <CamerPicker 
-                                        onTakePhoto={ setImageBase64 }
-                                        onClose={() => { setCameraActive(false); }}/>
-                            </View>
-                        :
-                            (!cameraActive) ?
-                            <View>
-                                <Image style={styles.image} source={{uri: 'data:image/jpg;base64,' + imageBase64}} />
-                                <TouchableOpacity onPress={takeImage} style={styles.btn}>
-                                    <Icon
-                                        name={'camera'}
-                                        type='font-awesome'
-                                        color={'#ffffff'}
-                                        size={20}
-                                        />
-                                </TouchableOpacity>
-                            </View>
-                            :
-                            <View style={styles.image}>
-                                <CamerPicker 
-                                        onTakePhoto={ setImageBase64 }
-                                        onClose={() => { setCameraActive(false); }}/>
-                            </View>
-                        }
+                    <CamerPicker onTakePhoto={setImage}/>
                     <View style={styles.inputContainer}>
                         <Text style={styles.tag}>Name:</Text>
                         <TextInput
@@ -178,7 +134,6 @@ export default function PlantInput(props: PlantInputProps) {
                     />
                 </View>
             </View>
-            <CustomButton title='test' onPress={test} />
         </Modal>
     );
 }
