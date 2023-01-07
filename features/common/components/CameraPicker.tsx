@@ -12,9 +12,7 @@ export default function CameraPicker(props: CameraPickerProps) {
     const [cameraActive, setCameraActive] = useState(false);
     const [imageBase64, setImageBase64] = useState('');
 
-    useEffect(() => {
-        console.log(imageBase64, '- Has changed')
-    },[props.onTakePhoto(imageBase64)]); // <-- here put the parameter to listen
+    useEffect(() => props.onTakePhoto(imageBase64)); // <-- here put the parameter to listen
 
     const takePhoto = () => {
         setCameraActive(true);
@@ -76,6 +74,13 @@ function Cam(props: CamProps) {
             setHasPermission(status === 'granted');
         })();
     }, []);
+
+    if (hasPermission) {
+        (async () => {
+            const { status } = await Camera.requestCameraPermissionsAsync();
+            setHasPermission(status === 'granted');
+        })();
+    }
 
     const takePhoto = async () => {
         const picture = await cameraRef?.takePictureAsync({ base64: true });
