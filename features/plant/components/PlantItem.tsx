@@ -1,3 +1,4 @@
+import { Icon } from '@rneui/themed';
 import { useState } from 'react';
 import { StyleSheet, View, Text, Pressable, Image, ImageBackground, GestureResponderEvent } from 'react-native';
 import usePlant from '../hooks/usePlant';
@@ -28,7 +29,7 @@ export default function PlantItem(props: PlantItemProps) {
     const openPlantInfoModal = () => {
         setPlantInfoIsVisible(true);
     }
-    
+
     const closePlantInfoModal = () => {
         setPlantInfoIsVisible(false);
     }
@@ -37,8 +38,19 @@ export default function PlantItem(props: PlantItemProps) {
         <View>
             <Pressable onPress={openPlantInfoModal}>
                 <View style={styles.plantItem} >
-                    {/* TODO check how to solve this with absolute path */}
-                    <Image style={styles.img} source={require('../../../assets/plant-images/pilea.jpg')} />
+                    {plant.image === undefined ?
+                        <View style={styles.imgEmpty}>
+                            <Icon
+                                name={'tree'}
+                                type='font-awesome'
+                                color={'#999999'}
+                                size={40}
+                            />
+                        </View>
+                        // <Image style={styles.img} source={require('../../../assets/plant-images/pilea.jpg')} />
+                        :
+                        <Image style={styles.img} source={{ uri: plant.image }} />
+                    }
                     <View style={styles.info}>
                         <Text style={styles.title}>{plant.name}</Text>
                         <View style={styles.container}>
@@ -76,6 +88,13 @@ const styles = StyleSheet.create({
         flex: 1,
         width: '35%',
         height: '100%'
+    },
+    imgEmpty: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '35%',
+        backgroundColor: '#cccccc'
     },
     info: {
         width: '65%',
