@@ -4,6 +4,7 @@ import PlantItem from './features/plant/components/PlantItem';
 import PlantInput from './features/plant/components/PlantInput';
 import CustomButton from './features/plant/components/CustomButton';
 import usePlantsStore from './features/plant/hooks/usePlantsStore';
+import PlantInfo from './features/plant/components/PlantInfo';
 
 
 export default function Planter() {
@@ -44,6 +45,7 @@ export default function Planter() {
       />
       {/* <Button title='add' color='#B8405E' onPress={openAddPlantModal} /> */}
       <CustomButton title='add' onPress={openAddPlantModal} />
+
     </View>
   );
 }
