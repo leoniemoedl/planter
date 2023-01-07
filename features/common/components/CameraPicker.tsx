@@ -12,7 +12,7 @@ export default function CameraPicker(props: CameraPickerProps) {
     const [cameraActive, setCameraActive] = useState(false);
     const [imageBase64, setImageBase64] = useState('');
 
-    useEffect(() => props.onTakePhoto(imageBase64)); // <-- here put the parameter to listen
+    useEffect(() => props.onTakePhoto('data:image/jpg;base64,' + imageBase64)); // <-- here put the parameter to listen
 
     const takePhoto = () => {
         setCameraActive(true);
